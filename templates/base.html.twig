@@ -1,16 +1,25 @@
 <!DOCTYPE html>
-<html>
+<html lang="fr">
     <head>
         <meta charset="UTF-8">
-        <title>{% block title %}FutEvent!{% endblock %}</title>
+        <title>{% block title %}FutEvent{% endblock %}</title>
         {% block stylesheets %}
             {# -- ICI REPOSE MON CODE CSS #}
             {# -- EX : BOOTSRAP CSS,... #}
+            <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
         {% endblock %}
 
     </head>
     <body>
-        {% block body %}{% endblock %}
+
+        {# Chargement de mon header #}
+        {% include 'partials/_header.html.twig' %}
+
+        <main>
+            {% block body %}{% endblock %}
+        </main>
+        {# Chargement de mon footer #}
+        {% include 'partials/_footer.html.twig' %}
     </body>
 
     {% block javascripts %}

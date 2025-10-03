@@ -1,0 +1,126 @@
+@import url('https://fonts.googleapis.com/css2?family=League+Spartan:wght@100..900&display=swap');
+
+:root{
+    --dark: #272D2D;
+    --light: #FDF0D5;
+    --primary: #FF5400
+}
+
+*{
+    font-family: "League Spartan", sans-serif;
+    margin: 0;
+}
+
+ul{
+    list-style-type: none;
+    padding: 0;
+}
+
+a, a:link, a:visited, a:hover, a:active, a:focus {
+    color: inherit;
+}
+
+li a{
+    font-size: 20px;
+}
+
+h3{
+    margin: 1em 0;
+}
+
+body{
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: var(--light);
+    color: var(--dark);
+}
+
+main{
+    flex: 1;
+    padding: 10vh 15vw;
+}
+
+
+/* NAVIGATION BAR */
+
+nav{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 2.5%;
+}
+
+#logo{
+    width: 10vw;
+}
+
+.nav-links{
+    display: flex;
+}
+
+.nav-link{
+    position: relative;
+    display: inline-block;
+    text-decoration: none;
+    margin: 0.5em;
+}
+
+.nav-link::after{
+    content: '';
+    position: absolute;
+    width: 100%;
+    transform: scaleX(0);
+    height: 1px;
+    bottom: 0;
+    left: 0;
+    background-color: var(--dark);
+    transform-origin: bottom right;
+    transition: transform 250ms ease-out;
+}
+
+.nav-link:hover::after{
+    transform: scaleX(1);
+    transform-origin: bottom left;
+}
+
+/* FOOTER */
+
+footer{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--dark);
+    color: var(--light);
+    padding: 2.5%;
+}
+
+#footer-main{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+#footer-lists{
+    display: flex;
+    justify-content: space-around;
+    width: 50%;
+}
+
+#footer-logo{
+    width: 20vw;
+}
+
+.footer-list{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.footer-list ul li{
+    gap: 5em;
+}
+
+

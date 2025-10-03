@@ -10,7 +10,7 @@ class DefaultController extends AbstractController
 {
 
     #[Route('/', name: 'default_home', methods: ['GET'])]
-    public function home()
+    public function home(): Response
     {
         return $this->render('default/home.html.twig');
     }
@@ -22,7 +22,7 @@ class DefaultController extends AbstractController
      * @return Response
      */
     #[Route('/category/{type}', name: 'default_category', methods: ['GET'])]
-    public function category($type)
+    public function category($type): Response
     {
         return $this->render('default/category.html.twig', ['type' => $type]);
     }
@@ -34,14 +34,13 @@ class DefaultController extends AbstractController
      * @return Response
      */
     #[Route('/{category}/{title}_{id}', name: 'default_event', methods: ['GET'])]
-    public function event($category, $title, $id)
+    public function event($category, $title, $id): Response
     {
-        return new Response("
-            <h1>Catégorie : $category
-            <br> Titre : $title
-            <br> ID : $id
-            </h1>
-        ");
+        return $this->render('default/event.html.twig', [
+            'category' => $category,
+            'title' => $title,
+            'id' => $id,
+        ]);
     }
 
 }
