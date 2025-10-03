@@ -20,7 +20,7 @@ a, a:link, a:visited, a:hover, a:active, a:focus {
     color: inherit;
 }
 
-li a{
+li, li a{
     font-size: 20px;
 }
 
@@ -55,31 +55,31 @@ nav{
     width: 10vw;
 }
 
-.nav-links{
+.links{
     display: flex;
+    gap: 1em;
 }
 
-.nav-link{
+.link{
     position: relative;
     display: inline-block;
     text-decoration: none;
-    margin: 0.5em;
 }
 
-.nav-link::after{
+.link::after{
     content: '';
     position: absolute;
     width: 100%;
     transform: scaleX(0);
-    height: 1px;
-    bottom: 0;
+    height: 2px;
+    bottom: -3px;
     left: 0;
-    background-color: var(--dark);
+    background-color: var(--primary);
     transform-origin: bottom right;
     transition: transform 250ms ease-out;
 }
 
-.nav-link:hover::after{
+.link:hover::after{
     transform: scaleX(1);
     transform-origin: bottom left;
 }
@@ -93,6 +93,7 @@ footer{
     align-items: center;
     background-color: var(--dark);
     color: var(--light);
+    gap: 5vh;
     padding: 2.5%;
 }
 
@@ -109,7 +110,7 @@ footer{
     width: 50%;
 }
 
-#footer-logo{
+#footer-logo {
     width: 20vw;
 }
 
@@ -119,7 +120,11 @@ footer{
     align-items: flex-start;
 }
 
-.footer-list ul li{
+.footer-links{
+    flex-direction: column;
+}
+
+.footer-links li{
     gap: 5em;
 }
 
