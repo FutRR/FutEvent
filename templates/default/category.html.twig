@@ -1,10 +1,42 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    Categorie : {{ type }}
+    <div class="search-wrapper">
+        <form class="search-form" action="" method="post">
+            <input type="text" name="query" placeholder="Search...">
+            <button class="search-btn" type="submit"><i class="fa-solid fa-magnifying-glass"></i></button>
+        </form>
+    </div>
+
+    <div class="events-wrapper">
+
+        <div class="event">
+            <img src="{{ asset('img/placeholder/2013-10-13_02.28.27dssss.webp') }}" alt="">
+            <div class="event-text">
+                <div class="event-title">
+                    <h2>DnB & Jungle Set</h2>
+                    <p>28/10/25 - 21:00</p>
+                </div>
+                <p class="event-description">
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dignissimos ducimus ea est excepturi, id laudantium nam odio officiis porro, quibusdam repellendus, reprehenderit rerum sapiente ullam voluptates? Illo inventore nobis quas. Ad cum cupiditate dignissimos ducimus enim eos esse id ipsum laudantium minima numquam praesentium provident quas, suscipit tenetur totam veritatis!
+                </p>
+            </div>
+            <div class="event-users">
+                <h3><i class="fa-solid fa-user"></i> 11 People Interested</h3>
+                <h3><i class="fa-solid fa-user"></i> 20 People Registered</h3>
+            </div>
+
+            <div class="event-btns">
+                <button class="btn btn-primary">Join</button>
+                <button class="btn btn-secondary">See more</button>
+            </div>
+        </div>
+
+    </div>
+
 {% endblock %}
 
 {% block title %}
-
+    {{  type }}
 {% endblock %}
 
