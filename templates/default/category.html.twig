@@ -8,29 +8,38 @@
         </form>
     </div>
 
-    <div class="events-wrapper">
-
+    <div class="events-list">
+        {% for event in events %}
         <div class="event">
-            <img src="{{ asset('img/placeholder/2013-10-13_02.28.27dssss.webp') }}" alt="">
-            <div class="event-text">
-                <div class="event-title">
-                    <h2>DnB & Jungle Set</h2>
-                    <p>28/10/25 - 21:00</p>
+            <figure class="event-list-img">
+                <img src="{{ asset( event.img ) }}" alt="">
+            </figure>
+            <div class="event-list-text">
+                <div class="event-list-title">
+                    <h2>{{ event.title }}</h2>
+                    <p>{{ event.date }} - {{ event.time }}</p>
                 </div>
-                <p class="event-description">
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Dignissimos ducimus ea est excepturi, id laudantium nam odio officiis porro, quibusdam repellendus, reprehenderit rerum sapiente ullam voluptates? Illo inventore nobis quas. Ad cum cupiditate dignissimos ducimus enim eos esse id ipsum laudantium minima numquam praesentium provident quas, suscipit tenetur totam veritatis!
+                <p class="event-list-description">
+                    {{ event.description }}
                 </p>
             </div>
-            <div class="event-users">
-                <h3><i class="fa-solid fa-user"></i> 11 People Interested</h3>
-                <h3><i class="fa-solid fa-user"></i> 20 People Registered</h3>
+            <div class="event-list-users">
+                <h3><i class="fa-solid fa-user"></i> {{ event.user_int }} users interested</h3>
+                <h3><i class="fa-solid fa-user"></i> {{ event.user_registered }} user registered</h3>
             </div>
 
-            <div class="event-btns">
-                <button class="btn btn-primary">Join</button>
-                <button class="btn btn-secondary">See more</button>
+            <div class="event-list-btns">
+                {% if event.isJoined == false %}
+                    <button class="btn list-btn btn-primary">Join</button>
+                {% else %}
+                    <button class="btn list-btn btn-primary">Joined <i class="fa-solid fa-check"></i></button>
+                {% endif %}
+                <a href="{{ path(name = 'default_event', parameters = {category: type, title: event.title, id: 1}) }}">See more <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
             </div>
         </div>
+        {% else %}
+            <p>No events found in this category.</p>
+        {% endfor %}
 
     </div>
 

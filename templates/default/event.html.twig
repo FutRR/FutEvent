@@ -1,15 +1,44 @@
 {% extends 'base.html.twig' %}
 
-{% block body %}
-
-    <h1>Catégorie : {{ category }}</h1>
-    <h2>Titre : {{ title }}</h2>
-    <p>ID : {{ id }}</p>
-
-
+{% block title %}
+    {{ event.title }} - Event Details
 {% endblock %}
 
-{% block title %}
+{% block body %}
+
+    <div class="event-wrapper">
+
+        <div class="event-top">
+            <h2>{{ event.title|upper }}</h2>
+            <h2>{{ event.date }} - {{ event.time }}</h2>
+        </div>
+
+        <div class="event-main">
+            <p class="event-description">
+                {{ event.description|replace({'.': '.<br/>'}) | raw }}
+            </p>
+
+            <figure class="event-img">
+                <img src="{{ asset( event.img ) }}" alt="">
+            </figure>
+        </div>
+
+        <div class="event-bottom">
+            <div class="event-users">
+                <h3><i class="fa-solid fa-user"></i> {{ event.user_int }} users interested</h3>
+                <h3><i class="fa-solid fa-user"></i> {{ event.user_registered }} user registered</h3>
+            </div>
+
+            <div class="event-btns">
+                {% if event.isJoined == false %}
+                    <button class="btn btn-primary">Join</button>
+                {% else %}
+                    <button class="btn btn-primary">Joined <i class="fa-solid fa-check"></i></button>
+                {% endif %}
+                <a class="btn btn-secondary" href="">Share <i class="fa-solid fa-share-nodes"></i></a>
+            </div>
+        </div>
+    </div>
 
 {% endblock %}
 

@@ -6,7 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
-class UserController extends AbstractController
+final class UserController extends AbstractController
 {
 
     #[Route('/login', name: 'user_login')]
