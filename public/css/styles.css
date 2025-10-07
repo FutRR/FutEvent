@@ -113,9 +113,9 @@ form {
     gap: 1em;
 }
 
-input[type="text"], input[type="password"], input[type="submit"] {
+input[type="text"], input[type="password"], input[type="email"], input[type="submit"] {
     width: 20em;
-    padding: 1em 2em;
+    padding: 1em 1.5em;
     margin-top: .5em;
     margin-bottom: 1em;
     border: var(--dark) 2px solid;
@@ -132,15 +132,16 @@ input:focus{
     border: var(--primary) 2px solid;
 }
 
-input[type="submit"]:active{
-    outline: none;
-    border: var(--primary) 2px solid;
-}
-
 input[type="submit"]:hover{
     background-color: var(--dark);
     color: var(--light);
     cursor: pointer;
+}
+
+input[type="submit"]:active{
+    outline: none;
+    border: var(--primary) 2px solid;
+    background-color: var(--primary);
 }
 
 /* FOOTER */

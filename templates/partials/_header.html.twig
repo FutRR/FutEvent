@@ -1,12 +1,12 @@
 <header>
     <nav>
-        <img src="{{ asset('img/logo-futevent-line.png') }}" alt="Logo FutEvent" id="logo">
+        <a href="{{ path('default_home') }}"><img src="{{ asset('img/logo-futevent-line.png') }}" alt="Logo FutEvent" id="logo"></a>
         <ul class="links">
-            <li><a class="link" href="">Accueil</a></li>
+            <li><a class="link" href="{{ path('default_home') }}">Accueil</a></li>
             <li><a class="link" href="">Catégories</a></li>
-            <li><a class="link" href="">Profil</a></li>
-            <li><a class="link" href="">Connexion</a></li>
-            <li><a class="link" href="">Inscription</a></li>
+            <li><a class="link" href="{#{{ path('user_profile') }}#}">Profil</a></li>
+            <li><a class="link" href="{{ path('user_login') }}">Connexion</a></li>
+            <li><a class="link" href="{{  path('user_register') }}">Inscription</a></li>
         </ul>
     </nav>
 </header>
