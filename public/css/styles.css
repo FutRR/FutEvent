@@ -87,18 +87,22 @@ nav{
 
 /* LOGIN */
 
+.form-wrapper{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2em;
+}
+
 form {
     display: flex;
     flex-direction: column;
     gap: 1em;
-    width: 50%;
-    padding: 5%;
 }
 
 .form-group{
     display: flex;
     flex-direction: column;
-    gap: 0.5em;
 }
 
 .form-checkbox{
@@ -106,7 +110,7 @@ form {
     flex-direction: row;
     align-items: center;
     width: 100%;
-    height: 1em;
+    gap: 1em;
 }
 
 input[type="text"], input[type="password"], input[type="submit"] {
@@ -121,6 +125,16 @@ input[type="text"], input[type="password"], input[type="submit"] {
     color: var(--dark);
     font-size: 16px;
     transition: all 250ms ease-out;
+}
+
+input:focus{
+    outline: none;
+    border: var(--primary) 2px solid;
+}
+
+input[type="submit"]:active{
+    outline: none;
+    border: var(--primary) 2px solid;
 }
 
 input[type="submit"]:hover{
