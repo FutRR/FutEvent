@@ -1,6 +1,9 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
+
+    <h1>{{ category.name }}</h1>
+
     <div class="search-wrapper">
         <form class="search-form" action="" method="post">
             <input type="text" name="query" placeholder="Search...">
@@ -9,33 +12,33 @@
     </div>
 
     <div class="events-list">
-        {% for event in events %}
+        {% for event in category.events %}
         <div class="event">
             <figure class="event-list-img">
-                <img src="{{ asset( event.img ) }}" alt="">
+                <img src="{{ asset( event.image ) }}" alt="">
             </figure>
             <div class="event-list-text">
                 <div class="event-list-title">
                     <h2>{{ event.title }}</h2>
-                    <p>{{ event.date }} - {{ event.time }}</p>
+                    <p>{{ event.datetimeStart|date("d/m/Y H:i") }}</p>
                 </div>
                 <p class="event-list-description">
                     {{ event.description }}
                 </p>
             </div>
-            <div class="event-list-users">
+            {#<div class="event-list-users">
                 <h3><i class="fa-solid fa-user"></i> {{ event.user_int }} users interested</h3>
                 <h3><i class="fa-solid fa-user"></i> {{ event.user_registered }} user registered</h3>
-            </div>
+            </div>#}
 
-            <div class="event-list-btns">
+            {#<div class="event-list-btns">
                 {% if event.isJoined == false %}
                     <button class="btn list-btn btn-primary">Join</button>
                 {% else %}
                     <button class="btn list-btn btn-primary">Joined <i class="fa-solid fa-check"></i></button>
                 {% endif %}
                 <a href="{{ path(name = 'default_event', parameters = {category: type, title: event.title, id: 1}) }}">See more <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
-            </div>
+            </div>#}
         </div>
         {% else %}
             <p>No events found in this category.</p>
@@ -46,6 +49,5 @@
 {% endblock %}
 
 {% block title %}
-    {{  type }}
 {% endblock %}
 

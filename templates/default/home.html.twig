@@ -6,11 +6,14 @@
 
 {% block body %}
 
-    <h1>
-        Accueil
-    </h1>
-    <p>
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Atque blanditiis consectetur deserunt dignissimos ducimus eligendi facilis ipsa ipsum iure laudantium libero mollitia nemo odio pariatur porro possimus, quod repudiandae, saepe. A amet consectetur culpa dolor facere harum incidunt, laboriosam neque nobis nulla officia, officiis optio quae totam vel velit voluptas.
-    </p>
+   {% for event in events %}
+         <div class="event">
+              <h2>{{ event.title }}</h2>
+              <p>{{ event.description }}</p>
+              <p>Date: {{ event.datetimeStart|date("d/m/Y H:i") }}</p>
+         </div>
+    {% else %}
+         <p>Aucun événement à venir.</p>
+    {% endfor %}
 
 {% endblock %}
