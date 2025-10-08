@@ -3,6 +3,7 @@
 namespace App\DataFixtures;
 
 use App\Entity\Category;
+use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 
@@ -29,6 +30,24 @@ class AppFixtures extends Fixture
             $event->setDatetimeEnd(new \DateTime('2024-07-01 21:00:00'));
             $event->setCategory($category);
             $manager->persist($event);
+        }
+
+        // Create admin user
+        $admin = new User();
+        $admin->setUsername('admin');
+        $admin->setEmail('admin@example.com');
+        $admin->setPassword('$2y$13$BmYmQITacL0NKzFP.HyWy.ioPpjHwepabuFr1a7oY7yLRoEHqQmPW'); // password: admin123
+        $admin->setRoles(['ROLE_ADMIN']);
+        $manager->persist($admin);
+
+        // Create regular users
+        for ($i = 1; $i <= 5; $i++) {
+            $user = new User();
+            $user->setUsername('user' . $i);
+            $user->setEmail('user' . $i . '@example.com');
+            $user->setPassword('$2y$13$A9L5HZuqYt8DwGFIDXc/dO1MDtWVFPQTsGK1s5pkCyeL9rqKGEtZe'); // password: user123
+            $user->setRoles(['ROLE_USER']);
+            $manager->persist($user);
         }
 
         // Save all changes to the database
