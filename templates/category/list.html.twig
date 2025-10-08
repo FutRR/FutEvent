@@ -1,15 +1,15 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello CategoryController!{% endblock %}
+{% block title %}Categories{% endblock %}
 
 {% block body %}
 
     <div class="categories-list">
         {% for category in categories %}
-            <a class="category" href="">
-                <figure class="category-img">
+            <a class="category" href="{{ path(name = 'category_show', parameters = {id: category.id}) }}">
+                {#<figure class="category-img">
                     <img src="{{ asset(category.image) }}" alt="">
-                </figure>
+                </figure>#}
                 <h2>{{ category.name|upper }}</h2>
             </a>
         {% else %}

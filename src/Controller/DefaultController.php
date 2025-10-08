@@ -23,20 +23,6 @@ final class DefaultController extends AbstractController
     }
 
     /**
-     * Event's categories page
-     * ex. https://localhost:8000/category/1
-     * ex. https://localhost:8000/category/2
-     * @return Response
-     */
-    #[Route('/category/{id}', name: 'default_category', methods: ['GET'])]
-    public function category($id, CategoryRepository $categoryRepository): Response
-    {
-        $category = $categoryRepository->find($id);
-
-        return $this->render('default/category.html.twig', ["category" => $category]);
-    }
-
-    /**
      * Event's detail page
      * ex. https://localhost:8000/music/dnb-dj-set-4564
      * ex. https://localhost:8000/{param:type}/{param:titre}_{param:id}

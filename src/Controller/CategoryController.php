@@ -2,28 +2,40 @@
 
 namespace App\Controller;
 
+use App\Entity\Category;
+use App\Repository\CategoryRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
 final class CategoryController extends AbstractController
 {
-    #[Route('/category', name: 'app_category')]
-    public function index(): Response
+    /**
+     * List of all categories
+     * ex. https://localhost:8000/category
+     * @param CategoryRepository $categoryRepository
+     * @return Response
+     */
+    #[Route('/category', name: 'category_list')]
+    public function list(CategoryRepository $categoryRepository): Response
     {
-        $categories = [
-            ['name' => 'Music', 'image' => 'img/categories/music.jpg'],
-            ['name' => 'Sports', 'image' => 'img/categories/sports.jpg'],
-            ['name' => 'Arts', 'image' => 'img/categories/arts.jpg'],
-            ['name' => 'Technology', 'image' => 'img/categories/technology.jpg'],
-            ['name' => 'Health', 'image' => 'img/categories/health.jpg'],
-            ['name' => 'Education', 'image' => 'img/categories/education.jpg'],
-            ['name' => 'Travel', 'image' => 'img/categories/travel.jpg'],
-            ['name' => 'Food & Drink', 'image' => 'img/categories/food_drink.jpg'],
-        ];
+        $categories = $categoryRepository->findAll();
 
-        return $this->render('category/index.html.twig', [
+        return $this->render('category/list.html.twig', [
             'categories' => $categories,
         ]);
+    }
+
+    /**
+     * Event's categories page
+     * ex. https://localhost:8000/category/1
+     * ex. https://localhost:8000/category/2
+     * @param Category $category
+     * @return Response
+     */
+    #[Route('/category/{id}', name: 'category_show', methods: ['GET'])]
+    public function show(Category $category): Response
+    {
+        return $this->render('category/show.html.twig', ['category' => $category]);
     }
 }

@@ -13,25 +13,25 @@
 
     <div class="events-list">
         {% for event in category.events %}
-        <div class="event">
-            <figure class="event-list-img">
-                <img src="{{ asset( event.image ) }}" alt="">
-            </figure>
-            <div class="event-list-text">
-                <div class="event-list-title">
-                    <h2>{{ event.title }}</h2>
-                    <p>{{ event.datetimeStart|date("d/m/Y H:i") }}</p>
+            <div class="event">
+                <figure class="event-list-img">
+                    <img src="{{ asset( event.image ) }}" alt="">
+                </figure>
+                <div class="event-list-text">
+                    <div class="event-list-title">
+                        <h2>{{ event.title }}</h2>
+                        <p>{{ event.datetimeStart|date("d/m/Y H:i") }}</p>
+                    </div>
+                    <p class="event-list-description">
+                        {{ event.description }}
+                    </p>
                 </div>
-                <p class="event-list-description">
-                    {{ event.description }}
-                </p>
-            </div>
-            {#<div class="event-list-users">
+                {#<div class="event-list-users">
                 <h3><i class="fa-solid fa-user"></i> {{ event.user_int }} users interested</h3>
                 <h3><i class="fa-solid fa-user"></i> {{ event.user_registered }} user registered</h3>
             </div>#}
 
-            {#<div class="event-list-btns">
+                {#<div class="event-list-btns">
                 {% if event.isJoined == false %}
                     <button class="btn list-btn btn-primary">Join</button>
                 {% else %}
@@ -39,7 +39,7 @@
                 {% endif %}
                 <a href="{{ path(name = 'default_event', parameters = {category: type, title: event.title, id: 1}) }}">See more <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
             </div>#}
-        </div>
+            </div>
         {% else %}
             <p>No events found in this category.</p>
         {% endfor %}
