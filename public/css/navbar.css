@@ -1,0 +1,41 @@
+/* NAVIGATION BAR */
+
+nav{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 2.5%;
+}
+
+#logo{
+    width: 10vw;
+}
+
+.links{
+    display: flex;
+    gap: 1em;
+}
+
+.link{
+    position: relative;
+    display: inline-block;
+    text-decoration: none;
+}
+
+.link::after{
+    content: '';
+    position: absolute;
+    width: 100%;
+    transform: scaleX(0);
+    height: 2px;
+    bottom: -3px;
+    left: 0;
+    background-color: var(--primary);
+    transform-origin: bottom right;
+    transition: transform 250ms ease-out;
+}
+
+.link:hover::after{
+    transform: scaleX(1);
+    transform-origin: bottom left;
+}

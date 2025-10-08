@@ -7,11 +7,36 @@
 {% block body %}
 
    {% for event in events %}
-         <div class="event">
-              <h2>{{ event.title }}</h2>
-              <p>{{ event.description }}</p>
-              <p>Date: {{ event.datetimeStart|date("d/m/Y H:i") }}</p>
-         </div>
+    <div class="home-event">
+
+        <figure class="event-img">
+            <img src="{{ asset( event.image ) }}" alt="">
+        </figure>
+
+       <div class="home-event-text">
+           <div class="home-event-title">
+               <h2>{{ event.title|upper }}</h2>
+               <h3>{{ event.datetimeStart|date("d/m/Y H:i") }}</h3>
+           </div>
+           <p class="event-description">
+               {{ event.description}}
+           </p>
+       </div>
+
+       <div class="home-event-bottom">
+           {#<div class="event-users">
+                <h3><i class="fa-solid fa-user"></i> {{ event.user_int }} users interested</h3>
+                <h3><i class="fa-solid fa-user"></i> {{ event.user_registered }} user registered</h3>
+            </div>#}
+
+           <div class="btns">
+               <a class="btn">Join</a>
+               <a class="btn" href="{{ path(name = 'event_show', parameters = {title: event.title, id: event.id}) }}">See more <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+           </div>
+       </div>
+
+    </div>
+
     {% else %}
          <p>Aucun événement à venir.</p>
     {% endfor %}

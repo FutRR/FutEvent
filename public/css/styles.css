@@ -1,4 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=League+Spartan:wght@100..900&display=swap');
+@import "navbar.css";
+@import "footer.css";
 
 :root{
     --dark: #272D2D;
@@ -30,11 +32,21 @@ h3{
     margin: 1em 0;
 }
 
+.btns{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1em;
+}
+
 .btn {
-    border: 2px solid var(--dark);
+    display: flex;
+    justify-content: center;
+    border: 2px solid var(--light);
     border-radius: 50px;
     background: none;
-    color: var(--dark);
+    color: var(--light);
     font-size: 20px;
     font-weight: 700;
     padding: .5em 1em;
@@ -43,13 +55,13 @@ h3{
     transition: all 250ms ease-out;
 }
 
+
 .btn:hover{
-    background-color: var(--dark);
-    color: var(--light);
+    border-color: var(--primary);
 }
 
 .btn:active{
-    border-color: var(--primary);
+    background-color: var(--primary);
 }
 
 body{
@@ -65,48 +77,35 @@ main{
     padding: 10vh 15vw;
 }
 
+/* HOMEPAGE */
 
-/* NAVIGATION BAR */
-
-nav{
+.home-event{
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 2.5%;
+    gap: 5em;
+    margin-top: 5em;
+    padding: 1em;
+    border-radius: 30px;
+    background-color: var(--dark);
+    color: var(--light);
 }
 
-#logo{
-    width: 10vw;
-}
-
-.links{
+.home-event-text{
     display: flex;
+    flex-direction: column;
+    align-self: flex-start;
+    gap: 1em;
+    width: 60%;
+}
+
+.home-event-title{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
     gap: 1em;
 }
 
-.link{
-    position: relative;
-    display: inline-block;
-    text-decoration: none;
-}
-
-.link::after{
-    content: '';
-    position: absolute;
-    width: 100%;
-    transform: scaleX(0);
-    height: 2px;
-    bottom: -3px;
-    left: 0;
-    background-color: var(--primary);
-    transform-origin: bottom right;
-    transition: transform 250ms ease-out;
-}
-
-.link:hover::after{
-    transform: scaleX(1);
-    transform-origin: bottom left;
-}
 
 /* LIST */
 
@@ -199,46 +198,30 @@ nav{
     align-items: center;
 }
 
-.event-list-btns{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 1em;
-}
-
-.list-btn{
-    border: 2px solid var(--light);
-    color: var(--light);
-}
-
-.list-btn:hover{
-    background-color: var(--light);
-    color: var(--dark);
-}
 
 /* EVENT DETAIL */
 
-.event-wrapper{
+.event-detail-wrapper{
     display: flex;
     flex-direction: column;
     gap: 2em;
+    color: var(--dark) !important;
 }
 
-.event-top{
+.event-detail-top{
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
-.event-main{
+.event-detail-main{
     display: flex;
     justify-content: space-between;
     align-items: center;
     gap: 5em;
 }
 
-.event-description{
+.event-detail-description{
     width: 70%;
     font-size: 20px;
 }
@@ -256,24 +239,27 @@ nav{
     border-radius: 15px;
 }
 
-.event-bottom{
+.event-detail-bottom{
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
-.event-users{
+.event-detail-users{
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 1em;
 }
 
-.event-btns{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1em;
+.event-detail-btn{
+    border-color: var(--dark);
+    color: var(--dark);
+}
+
+.btn-secondary-detail{
+    background-color: var(--dark);
+    color: var(--light) !important;
 }
 
 
@@ -336,48 +322,5 @@ input[type="submit"]:active{
     background-color: var(--primary);
 }
 
-/* FOOTER */
-
-footer{
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-    background-color: var(--dark);
-    color: var(--light);
-    gap: 5vh;
-    padding: 2.5%;
-}
-
-#footer-main{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-}
-
-#footer-lists{
-    display: flex;
-    justify-content: space-around;
-    width: 50%;
-}
-
-#footer-logo {
-    width: 20vw;
-}
-
-.footer-list{
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-}
-
-.footer-links{
-    flex-direction: column;
-}
-
-.footer-links li{
-    gap: 5em;
-}
 
 

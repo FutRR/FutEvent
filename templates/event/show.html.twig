@@ -6,15 +6,15 @@
 
 {% block body %}
 
-    <div class="event-wrapper">
+    <div class="event-detail-wrapper">
 
-        <div class="event-top">
+        <div class="event-detail-top">
             <h2>{{ event.title|upper }}</h2>
             <h2>{{ event.datetimeStart|date("d/m/Y H:i") }}</h2>
         </div>
 
-        <div class="event-main">
-            <p class="event-description">
+        <div class="event-detail-main">
+            <p class="event-detail-description">
                 {{ event.description}}
             </p>
 
@@ -23,17 +23,18 @@
             </figure>
         </div>
 
-        <div class="event-bottom">
-            {#<div class="event-users">
+        <div class="event-detail-bottom">
+            {#<div class="event-detail-users">
                 <h3><i class="fa-solid fa-user"></i> {{ event.user_int }} users interested</h3>
                 <h3><i class="fa-solid fa-user"></i> {{ event.user_registered }} user registered</h3>
             </div>#}
 
-            <div class="event-btns">
-                <button class="btn btn-primary">Join</button>
-                <a class="btn btn-secondary" href="">Share <i class="fa-solid fa-share-nodes"></i></a>
+            <div class="btns">
+                <a class="btn event-detail-btn">Join</a>
+                <a class="btn btn-secondary-detail event-detail-btn" href="">Share <i class="fa-solid fa-share-nodes"></i></a>
             </div>
         </div>
+
     </div>
 
 {% endblock %}
