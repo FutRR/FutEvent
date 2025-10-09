@@ -5,6 +5,7 @@
 {% block body %}
 
     <div class="categories-list">
+        <a class="btn" href="{{ path('category_new') }}">Create</a>
         {% for category in categories %}
             <a class="category" href="{{ path(name = 'category_show', parameters = {id: category.id}) }}">
                 {#<figure class="category-img">

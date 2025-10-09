@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Add Category{% endblock %}
+
+{% block body %}
+
+    {{ form_errors(categoryForm) }}
+
+    <div class="form-wrapper">
+
+        <h1>Add a category</h1>
+
+        {{ form_start(categoryForm) }}
+
+        {{ form_row(categoryForm.name) }}
+
+        <input type="submit" class="btn" value="Register">
+        {{ form_end(categoryForm) }}
+    </div>
+{% endblock %}
