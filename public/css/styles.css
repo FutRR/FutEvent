@@ -263,7 +263,7 @@ main{
 }
 
 
-/* LOGIN */
+/* FORMS */
 
 .form-wrapper{
     display: flex;
@@ -276,6 +276,7 @@ form {
     display: flex;
     flex-direction: column;
     gap: 1em;
+    width: 50%;
 }
 
 .form-group{
@@ -328,6 +329,4 @@ input[type="submit"]:active{
 
 /* REGISTER */
 
-.register-wrapper form div{
-}
 
