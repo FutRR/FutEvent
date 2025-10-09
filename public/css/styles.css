@@ -291,6 +291,10 @@ form {
     gap: 1em;
 }
 
+.form-checkbox input{
+    width: 10% !important;
+}
+
 input[type="text"], input[type="password"], input[type="email"], input[type="submit"] {
     width: 20em;
     padding: 1em 1.5em;
@@ -322,5 +326,8 @@ input[type="submit"]:active{
     background-color: var(--primary);
 }
 
+/* REGISTER */
 
+.register-wrapper form div{
+}
 
