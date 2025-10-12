@@ -10,6 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 final class CategoryController extends AbstractController
 {
@@ -36,26 +37,70 @@ final class CategoryController extends AbstractController
      * @param EntityManagerInterface $entityManager
      * @return Response
      */
-    #[Route('/category/new', name: 'category_new')]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    #[Route('/category/new', name: 'category_new', methods: ['GET', 'POST'])]
+    #[Route('/category/{id}/edit', name: 'category_edit', methods: ['GET', 'POST'])]
+    #[isGranted('ROLE_ADMIN')]
+    public function new(Category $category = null, Request $request, EntityManagerInterface $entityManager): Response
     {
-        $category = new Category();
-        $form = $this->createForm(CategoryType::class, $category);
-        $form->handleRequest($request);
+        $user = $this->getUser();
 
-        if ($form->isSubmitted() && $form->isValid()){
-            $category =$form->getData();
+        if($this->isGranted('ROLE_ADMIN')){
 
-            $entityManager->persist($category);
-            $entityManager->flush();
-            $this->addFlash('success', 'Category created successfully');
+            $isNewCategory = !$category;
 
+            $message = $isNewCategory ? 'New category created' : 'Category updated';
+
+            if (!$category){
+                $category = new Category();
+            }
+            $form = $this->createForm(CategoryType::class, $category);
+            $form->handleRequest($request);
+
+            if ($form->isSubmitted() && $form->isValid()){
+                $category = $form->getData();
+
+                $entityManager->persist($category);
+                $entityManager->flush();
+                $this->addFlash('success', "$message successfully");
+
+                return $this->redirectToRoute('category_show', ['id' => $category->getId()]);
+            }
+
+            return $this->render('category/new.html.twig', [
+                'categoryForm' => $form,
+                'edit' => !$isNewCategory,
+            ]);
+        }else {
+            $this->addFlash('error', 'You are not allowed to access this page');
+            return $this->redirectToRoute('default_home');
+        }
+    }
+
+    #[Route('/category/{id}/delete', name: 'category_delete', methods: ['POST', 'DELETE'])]
+    #[IsGranted('ROLE_ADMIN')]
+    public function delete(Request $request, Category $category, EntityManagerInterface $entityManager): Response
+    {
+        if (!$this->isCsrfTokenValid('delete'.$category->getId(), $request->request->get('_token'))) {
+            $this->addFlash('error', 'Invalid CSRF token');
+            return $this->redirectToRoute('category_list');
+        }
+
+        // Check if category has associated events
+        if ($category->getEvents()->count() > 0) {
+            $this->addFlash('error', 'Cannot delete category with associated events. Please delete or reassign the events first.');
             return $this->redirectToRoute('category_show', ['id' => $category->getId()]);
         }
 
-        return $this->render('category/new.html.twig', [
-            'categoryForm' => $form,
-        ]);
+        try {
+            $entityManager->remove($category);
+            $entityManager->flush();
+            $this->addFlash('success', 'Category deleted successfully');
+            return $this->redirectToRoute('category_list');
+        } catch (\Exception $e) {
+            $this->addFlash('error', 'An error occurred while deleting the category');
+        }
+
+        return $this->redirectToRoute('category_list');
     }
 
     /**
