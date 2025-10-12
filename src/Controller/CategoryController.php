@@ -42,38 +42,30 @@ final class CategoryController extends AbstractController
     #[isGranted('ROLE_ADMIN')]
     public function new(Category $category = null, Request $request, EntityManagerInterface $entityManager): Response
     {
-        $user = $this->getUser();
+        $isNewCategory = !$category;
 
-        if($this->isGranted('ROLE_ADMIN')){
+        $message = $isNewCategory ? 'New category created' : 'Category updated';
 
-            $isNewCategory = !$category;
-
-            $message = $isNewCategory ? 'New category created' : 'Category updated';
-
-            if (!$category){
-                $category = new Category();
-            }
-            $form = $this->createForm(CategoryType::class, $category);
-            $form->handleRequest($request);
-
-            if ($form->isSubmitted() && $form->isValid()){
-                $category = $form->getData();
-
-                $entityManager->persist($category);
-                $entityManager->flush();
-                $this->addFlash('success', "$message successfully");
-
-                return $this->redirectToRoute('category_show', ['id' => $category->getId()]);
-            }
-
-            return $this->render('category/new.html.twig', [
-                'categoryForm' => $form,
-                'edit' => !$isNewCategory,
-            ]);
-        }else {
-            $this->addFlash('error', 'You are not allowed to access this page');
-            return $this->redirectToRoute('default_home');
+        if (!$category){
+            $category = new Category();
         }
+        $form = $this->createForm(CategoryType::class, $category);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()){
+            $category = $form->getData();
+
+            $entityManager->persist($category);
+            $entityManager->flush();
+            $this->addFlash('success', "$message successfully");
+
+            return $this->redirectToRoute('category_show', ['id' => $category->getId()]);
+        }
+
+        return $this->render('category/new.html.twig', [
+            'categoryForm' => $form,
+            'edit' => !$isNewCategory,
+        ]);
     }
 
     #[Route('/category/{id}/delete', name: 'category_delete', methods: ['POST', 'DELETE'])]
