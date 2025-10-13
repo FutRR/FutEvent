@@ -40,7 +40,7 @@ final class CategoryController extends AbstractController
     #[Route('/category/new', name: 'category_new', methods: ['GET', 'POST'])]
     #[Route('/category/{id}/edit', name: 'category_edit', methods: ['GET', 'POST'])]
     #[isGranted('ROLE_ADMIN')]
-    public function new(Category $category = null, Request $request, EntityManagerInterface $entityManager): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, Category $category = null): Response
     {
         $isNewCategory = !$category;
 

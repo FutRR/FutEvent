@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\Category;
 use App\Entity\Event;
 use App\Entity\User;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
@@ -17,6 +18,10 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class EventType extends AbstractType
 {
+    public function __construct(private readonly EntityManagerInterface $entityManager)
+    {
+    }
+
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
@@ -57,10 +62,11 @@ class EventType extends AbstractType
             ])
             ->add('category', EntityType::class, [
                 'class' => Category::class,
-                'choice_value' => 'name',
-                'choice_label' => function (?Category $category): string {
-                    return $category ? $category->getName() : '';
-                },
+                'choice_label' => 'name',
+                'placeholder' => 'Choose a category',
+                'data' => $options['category_id'] ?
+                    $this->entityManager->getRepository(Category::class)->find($options['category_id']) :
+                    null,
             ])
         ;
     }
@@ -69,6 +75,7 @@ class EventType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Event::class,
+            'category_id' => null,
         ]);
     }
 }
