@@ -21,6 +21,7 @@
            <div class="home-event-title">
                <h2>{{ event.title|upper }}</h2>
                <h3>{{ event.datetimeStart|date("d/m/Y H:i") }}</h3>
+               <h4>Created by {{ event.creator.username }}</h4>
            </div>
            <p class="event-description">
                {{ event.description}}
@@ -28,10 +29,8 @@
        </div>
 
        <div class="home-event-bottom">
-           {#<div class="event-users">
-                <h3><i class="fa-solid fa-user"></i> {{ event.user_int }} users interested</h3>
-                <h3><i class="fa-solid fa-user"></i> {{ event.user_registered }} user registered</h3>
-            </div>#}
+
+           <h3><i class="fa-solid fa-user"></i> {{ event.users | length }} users</h3>
 
            <div class="btns">
                <a class="btn">Join</a>
