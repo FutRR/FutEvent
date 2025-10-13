@@ -64,6 +64,7 @@ class EventType extends AbstractType
                 'class' => Category::class,
                 'choice_label' => 'name',
                 'placeholder' => 'Choose a category',
+                'choice_value' => 'id',
                 'data' => $options['category_id'] ?
                     $this->entityManager->getRepository(Category::class)->find($options['category_id']) :
                     null,

@@ -75,7 +75,7 @@ final class EventController extends AbstractController
 
             $entityManager->persist($event);
             $entityManager->flush();
-            $this->addFlash('success', "$message successfully");
+            flash()->success($message . ' successfully!');
             return $this->redirectToRoute('event_show', ['id' => $event->getId(), 'title' => $event->getTitle()]);
         }
 

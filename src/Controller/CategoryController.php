@@ -57,7 +57,7 @@ final class CategoryController extends AbstractController
 
             $entityManager->persist($category);
             $entityManager->flush();
-            $this->addFlash('success', "$message successfully");
+            flash()->success($message . ' successfully!');
 
             return $this->redirectToRoute('category_show', ['id' => $category->getId()]);
         }
@@ -73,23 +73,23 @@ final class CategoryController extends AbstractController
     public function delete(Request $request, Category $category, EntityManagerInterface $entityManager): Response
     {
         if (!$this->isCsrfTokenValid('delete'.$category->getId(), $request->request->get('_token'))) {
-            $this->addFlash('error', 'Invalid CSRF token');
+            flash()->error('Invalid CSRF token');
             return $this->redirectToRoute('category_list');
         }
 
         // Check if category has associated events
         if ($category->getEvents()->count() > 0) {
-            $this->addFlash('error', 'Cannot delete category with associated events. Please delete or reassign the events first.');
+            flash()->error('Cannot delete category with associated events. Please delete or reassign the events first.');
             return $this->redirectToRoute('category_show', ['id' => $category->getId()]);
         }
 
         try {
             $entityManager->remove($category);
             $entityManager->flush();
-            $this->addFlash('success', 'Category deleted successfully');
+            flash()->success('Category deleted successfully');
             return $this->redirectToRoute('category_list');
         } catch (\Exception $e) {
-            $this->addFlash('error', 'An error occurred while deleting the category');
+            flash()->error('An error occurred while deleting the category');
         }
 
         return $this->redirectToRoute('category_list');
