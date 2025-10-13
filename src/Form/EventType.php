@@ -29,7 +29,7 @@ class EventType extends AbstractType
             ->add('image', FileType::class, [
                 'row_attr' => ['class' => 'form-group file-upload'],
                 'mapped' => false,
-                'label' => 'Image',
+                'label' => 'Image (File must not exceed 3MB)',
                 'required' => false,
                 'constraints' => [
                     new File(
@@ -48,9 +48,12 @@ class EventType extends AbstractType
             ])
             ->add('datetime_start', DateTimeType::class, [
                 'row_attr' => ['class' => 'form-group'],
+                'label' => 'Starts On',
             ])
             ->add('datetime_end', DateTimeType::class, [
                 'row_attr' => ['class' => 'form-group'],
+                'label' => 'Ends On',
+
             ])
             ->add('category', EntityType::class, [
                 'class' => Category::class,
