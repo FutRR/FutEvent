@@ -19,7 +19,11 @@
             </p>
 
             <figure class="event-img">
-                <img src="{{ asset( event.image ) }}" alt="">
+                {% if event.image %}
+                    <img src="{{ asset('img/event/' ~ event.image) }}" alt="">
+                {% else %}
+                    <img src="{{ asset('img/partials/image_not_found.png') }}" alt="">
+                {% endif %}
             </figure>
         </div>
 

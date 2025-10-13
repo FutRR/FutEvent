@@ -24,7 +24,11 @@
         {% for event in category.events %}
             <div class="event">
                 <figure class="event-list-img">
-                    <img src="{{ asset( event.image ) }}" alt="">
+                    {% if event.image %}
+                        <img src="{{ asset('img/event/' ~ event.image) }}" alt="">
+                    {% else %}
+                        <img src="{{ asset('img/partials/image_not_found.png') }}" alt="">
+                    {% endif %}
                 </figure>
                 <div class="event-list-text">
                     <div class="event-list-title">

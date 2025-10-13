@@ -12,7 +12,7 @@ use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
-use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class EventType extends AbstractType
@@ -29,6 +29,22 @@ class EventType extends AbstractType
             ->add('image', FileType::class, [
                 'row_attr' => ['class' => 'form-group file-upload'],
                 'mapped' => false,
+                'label' => 'Image',
+                'required' => false,
+                'constraints' => [
+                    new File(
+                        maxSize: '3000k',
+                        mimeTypes: [
+                            'image/webp',
+                            'image/jpeg',
+                            'image/png',
+                        ],
+                        notFoundMessage: 'The file could not be found',
+                        notReadableMessage: 'The file is not readable',
+                        maxSizeMessage: 'The image is too large. Maximum allowed size is 3MB',
+                        mimeTypesMessage: 'Please upload a valid image',
+                    )
+                ]
             ])
             ->add('datetime_start', DateTimeType::class, [
                 'row_attr' => ['class' => 'form-group'],
@@ -38,7 +54,10 @@ class EventType extends AbstractType
             ])
             ->add('category', EntityType::class, [
                 'class' => Category::class,
-                'choice_label' => 'id',
+                'choice_value' => 'name',
+                'choice_label' => function (?Category $category): string {
+                    return $category ? $category->getName() : '';
+                },
             ])
         ;
     }

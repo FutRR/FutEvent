@@ -20,23 +20,61 @@ final class EventController extends AbstractController
     public function new(Event $event = null, Request $request, EntityManagerInterface $entityManager): Response
     {
         $isNewEvent = !$event;
+        $event = $event ?? new Event();
+
+        if (!$isNewEvent && $event->getCreator() !== $this->getUser()) {
+            throw $this->createAccessDeniedException('You can only edit your own events');
+        }
+
+        $oldImage = $event->getImage();
 
         $message = $isNewEvent ? 'New event created' : 'Event updated';
 
-        $event = new Event();
         $form = $this->createForm(EventType::class, $event);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $event = $form->getData();
+            $imageFile = $form->get('image')->getData();
 
-            $image = $form['image']->getData();
-            $image->move()
+            if ($imageFile) {
+                // Save new image first
+                $newFilename = uniqid() . '.webp';
+                $uploadDir = $this->getParameter('event_images_directory');
+                $targetPath = $uploadDir . '/' . $newFilename;
+
+                // Create and convert image to WebP
+                $sourceImage = imagecreatefromstring(file_get_contents($imageFile));
+
+                if ($sourceImage === false) {
+                    throw new \RuntimeException('Failed to create image from uploaded file');
+                }
+
+                try {
+                    $success = imagewebp($sourceImage, $targetPath);
+
+                    if (!$success) {
+                        throw new \RuntimeException('Failed to save WebP image');
+                    }
+
+                    $event->setImage($newFilename);
+
+                    // Delete old image AFTER successful save
+                    if ($oldImage && file_exists($this->getParameter('event_images_directory') . '/' . $oldImage)) {
+                        unlink($this->getParameter('event_images_directory') . '/' . $oldImage);
+                    }
+                } finally {
+                    imagedestroy($sourceImage); // Free memory
+                }
+            }
+
+            if ($isNewEvent) {
+                $event->setCreator($this->getUser());
+            }
 
             $entityManager->persist($event);
             $entityManager->flush();
             $this->addFlash('success', "$message successfully");
-            return $this->redirectToRoute('event_show', ['id' => $event->getId()]);
+            return $this->redirectToRoute('event_show', ['id' => $event->getId(), 'title' => $event->getTitle()]);
         }
 
         return $this->render('event/new.html.twig', [
