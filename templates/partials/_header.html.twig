@@ -5,7 +5,7 @@
             <li><a class="link" href="{{ path('default_home') }}">Home</a></li>
             <li><a class="link" href="{{ path('category_list') }}">Categories</a></li>
             {% if app.user %}
-                <li><a class="link" href="{#{{ path('user_profile') }}#}">Profile</a></li>
+                <li><a class="link" href="{{ path('user_profile', {username: app.user.username}) }}">Profile</a></li>
                 <li><a class="link" href="{{ path('app_logout') }}">Logout</a></li>
             {% else %}
                 <li><a class="link" href="{{ path('app_login') }}">Login</a></li>
