@@ -119,6 +119,14 @@ final class EventController extends AbstractController
         return $this->redirectToRoute('category_show', ['id' => $category->getId()]);
     }
 
+    /**
+     * Join an event
+     * ex. https://localhost:8000/event/dnb-dj-set-4564/join
+     * @param Request $request
+     * @param EntityManagerInterface $entityManager
+     * @param Event $event
+     * @return Response
+     */
     #[Route('/event/{title}_{id}/join', name: 'event_join', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
     public function join(Request $request, EntityManagerInterface $entityManager, Event $event): Response
@@ -136,6 +144,26 @@ final class EventController extends AbstractController
             }
         } else {
             flash()->error('You cannot join your own event');
+        }
+
+        return $this->redirectToRoute('event_show', ['id' => $event->getId(), 'title' => $event->getTitle()]);
+    }
+
+    #[Route('/event/{title}_{id}/leave', name: 'event_leave', methods: ['GET', 'POST'])]
+    #[IsGranted('ROLE_USER')]
+    public function leave(Request $request, EntityManagerInterface $entityManager, Event $event): Response
+    {
+        if($this->getUser() !== $event->getCreator()){
+            if ($event->getUsers()->contains($this->getUser())) {
+                $event->removeUser($this->getUser());
+                $entityManager->persist($event);
+                $entityManager->flush();
+                flash()->info('You have successfully left this event');
+            } else{
+                flash()->error('You are not registered for this event');
+            }
+        }else {
+            flash()->error('You cannot leave your own event');
         }
 
         return $this->redirectToRoute('event_show', ['id' => $event->getId(), 'title' => $event->getTitle()]);
