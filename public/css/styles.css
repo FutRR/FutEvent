@@ -35,10 +35,10 @@ h3{
 .btns{
     display: flex;
     flex-direction: column;
-    align-items: center;
     justify-content: center;
+    align-items: center;
     gap: 1em;
-    min-width: max-content;
+    width: 200px;
 }
 
 .btn {
@@ -51,9 +51,12 @@ h3{
     font-size: 20px;
     font-weight: 700;
     padding: .5em 1em;
-    min-width: max-content;
     width: 100%;
     cursor: pointer;
+    transition: all 250ms ease-out;
+}
+
+.btn-content{
     transition: all 250ms ease-out;
 }
 
