@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Event;
+use App\Entity\User;
 use App\Form\EventType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -131,10 +132,13 @@ final class EventController extends AbstractController
     #[IsGranted('ROLE_USER')]
     public function join(Request $request, EntityManagerInterface $entityManager, Event $event): Response
     {
-        if($this->getUser() !== $event->getCreator()){
+        /** @var User $user */
+        $user = $this->getUser();
 
-            if (!$event->getUsers()->contains($this->getUser())) {
-                $event->addUser($this->getUser());
+        if($user !== $event->getCreator()){
+
+            if (!$event->getUsers()->contains($user)) {
+                $event->addUser($user);
 
                 $entityManager->persist($event);
                 $entityManager->flush();
@@ -146,6 +150,10 @@ final class EventController extends AbstractController
             flash()->error('You cannot join your own event');
         }
 
+        $referer = $request->headers->get('referer');
+        if ($referer) {
+            return $this->redirect($referer);
+        }
         return $this->redirectToRoute('event_show', ['id' => $event->getId(), 'title' => $event->getTitle()]);
     }
 
@@ -153,9 +161,14 @@ final class EventController extends AbstractController
     #[IsGranted('ROLE_USER')]
     public function leave(Request $request, EntityManagerInterface $entityManager, Event $event): Response
     {
-        if($this->getUser() !== $event->getCreator()){
-            if ($event->getUsers()->contains($this->getUser())) {
-                $event->removeUser($this->getUser());
+        /** @var User $user */
+        $user = $this->getUser();
+
+        if($user !== $event->getCreator()){
+
+            if ($event->getUsers()->contains($user)) {
+                $event->removeUser($user);
+
                 $entityManager->persist($event);
                 $entityManager->flush();
                 flash()->info('You have successfully left this event');

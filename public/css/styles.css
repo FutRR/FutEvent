@@ -38,7 +38,7 @@ h3{
     justify-content: center;
     align-items: center;
     gap: 1em;
-    width: 200px;
+    width: 150px;
 }
 
 .btn {
@@ -83,6 +83,19 @@ main{
 
 /* HOMEPAGE */
 
+.home{
+    display: flex;
+    justify-content: space-between;
+    gap: 5%;
+}
+
+.home-events{
+    display: flex;
+    flex-direction: column;
+    gap: 2em;
+    width: 60%;
+}
+
 .home-event{
     display: flex;
     justify-content: space-between;
@@ -115,6 +128,30 @@ main{
     justify-content: space-between;
     align-items: center;
     width: 20%;
+}
+
+.your-event{
+    display: flex;
+    flex-direction: column;
+    gap: 2em;
+    width: 30%;
+}
+
+.home-created{
+    flex-direction: column;
+    justify-content: flex-start !important;
+    height: 100%;
+}
+
+.home-created-top{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1em;
+}
+
+.home-created-img{
+    width: 40% !important;
 }
 
 /* LIST */

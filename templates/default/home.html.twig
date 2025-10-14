@@ -5,53 +5,93 @@
 {% endblock %}
 
 {% block body %}
+    <div class="home">
 
-   {% for event in events %}
-    <div class="home-event">
+        <div class="home-events">
 
-        <figure class="event-img">
-            {% if event.image %}
-                <img src="{{ asset('img/event/' ~ event.image) }}" alt="">
+            <h2>Upcoming events</h2>
+           {% for event in events %}
+            <div class="home-event">
+
+                <figure class="event-img">
+                    {% if event.image %}
+                        <img src="{{ asset('img/event/' ~ event.image) }}" alt="">
+                    {% else %}
+                        <img src="{{ asset('img/partials/image_not_found.png') }}" alt="">
+                    {% endif %}
+                </figure>
+
+               <div class="home-event-text">
+                   <div class="home-event-title">
+                       <h2>{{ event.title|upper }}</h2>
+                       <h3>{{ event.datetimeStart|date("d/m/Y H:i") }}</h3>
+                       <h4>Created by {{ event.creator.username }}</h4>
+                   </div>
+                   <p class="event-description">
+                       {{ event.description}}
+                   </p>
+               </div>
+
+               <div class="home-event-bottom">
+
+                   <h3><i class="fa-solid fa-user"></i> {{ event.users | length }} users</h3>
+
+                   <div class="btns">
+                       {% if app.user == event.creator %}
+                           <a class="btn" href="{{ path('event_edit', {'id': event.id}) }}">Edit <i class="fa-solid fa-pen-to-square"></i></a>
+                       {% else %}
+                           {% if app.user in event.users %}
+                               <a class="btn event-leave-btn" href="{{ path('event_leave', {id: event.id, title: event.title}) }}">
+                                   Joined <i class="fa-solid fa-check"></i>
+                               </a>
+                           {% else %}
+                               <a class="btn" href={{ path('event_join', {id: event.id, title: event.title}) }}>Join</a>
+                           {% endif %}
+                       {% endif %}
+                       <a class="btn" href="{{ path(name = 'event_show', parameters = {title: event.title, id: event.id}) }}">See more <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
+                   </div>
+               </div>
+
+            </div>
+
             {% else %}
-                <img src="{{ asset('img/partials/image_not_found.png') }}" alt="">
-            {% endif %}
-        </figure>
+                 <p>Aucun événement à venir.</p>
+            {% endfor %}
 
-       <div class="home-event-text">
-           <div class="home-event-title">
-               <h2>{{ event.title|upper }}</h2>
-               <h3>{{ event.datetimeStart|date("d/m/Y H:i") }}</h3>
-               <h4>Created by {{ event.creator.username }}</h4>
-           </div>
-           <p class="event-description">
-               {{ event.description}}
-           </p>
-       </div>
+        </div>
 
-       <div class="home-event-bottom">
 
-           <h3><i class="fa-solid fa-user"></i> {{ event.users | length }} users</h3>
+        {% if app.user %}
+            <div class="your-event">
+                <h2>Your next event</h2>
 
-           <div class="btns">
-               {% if app.user == event.creator %}
-                   <a class="btn" href="{{ path('event_edit', {'id': event.id}) }}">Edit <i class="fa-solid fa-pen-to-square"></i></a>
-               {% else %}
-                   {% if app.user in event.users %}
-                       <a class="btn event-leave-btn" href="{{ path('event_leave', {id: event.id, title: event.title}) }}">
-                           Joined <i class="fa-solid fa-check"></i>
-                       </a>
-                   {% else %}
-                       <a class="btn" href={{ path('event_join', {id: event.id, title: event.title}) }}>Join</a>
-                   {% endif %}
-               {% endif %}
-               <a class="btn" href="{{ path(name = 'event_show', parameters = {title: event.title, id: event.id}) }}">See more <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
-           </div>
-       </div>
+                {% if app.user.events | length > 0 %}
+
+
+                    <div class="home-created event">
+                        <div class="home-created-top">
+                            <figure class="home-created-img event-img">
+                                {% if createdEvent.image %}
+                                    <img src="{{ asset('img/event/' ~ createdEvent.image) }}" alt="">
+                                {% else %}
+                                    <img src="{{ asset('img/partials/image_not_found.png') }}" alt="">
+                                {% endif %}
+                            </figure>
+
+                            <div class="home-created-title">
+                                <h2>{{ createdEvent.title|upper }}</h2>
+                                <h3>Starts : {{ createdEvent.datetimeStart|date("d/m/Y H:i") }}</h3>
+                                <h3>Ends : {{ createdEvent.datetimeEnd|date("d/m/Y H:i") }}</h3>
+                            </div>
+                        </div>
+
+                        <p>{{ createdEvent.description }}</p>
+                    </div>
+                {% else %}
+                    <p>You have not yet created an event</p>
+                {% endif %}
+            </div>
+        {% endif %}
 
     </div>
-
-    {% else %}
-         <p>Aucun événement à venir.</p>
-    {% endfor %}
-
 {% endblock %}
