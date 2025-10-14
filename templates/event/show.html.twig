@@ -35,7 +35,11 @@
             <h3><i class="fa-solid fa-user"></i> {{ event.users | length }} users</h3>
 
             <div class="btns">
-                <a class="btn event-detail-btn">Join</a>
+                {% if isJoined %}
+                    <a class="btn event-detail-btn">Joined <i class="fa-solid fa-check"></i></a>
+                {% else %}
+                    <a class="btn event-detail-btn" href={{ path('event_join', {id: event.id, title: event.title}) }}>Join</a>
+                {% endif %}
                 <a class="btn btn-secondary-detail event-detail-btn" href="">Share <i class="fa-solid fa-share-nodes"></i></a>
                 {% if app.user == event.creator %}
                     <a class="btn btn-secondary-detail event-detail-btn" href="{{ path('event_edit', {id: event.id}) }}">Edit <i class="fa-solid fa-pen-to-square"></i></a>

@@ -85,6 +85,14 @@ final class EventController extends AbstractController
         ]);
     }
 
+    /**
+     * Delete an event
+     * ex. https://localhost:8000/event/123/delete
+     * @param Request $request
+     * @param Event $event
+     * @param EntityManagerInterface $entityManager
+     * @return Response
+     */
     #[Route('/event/{id}/delete', name: 'event_delete', methods: ['POST', 'DELETE'])]
     #[IsGranted('ROLE_USER')]
     public function delete(Request $request, Event $event, EntityManagerInterface $entityManager): Response
@@ -111,6 +119,27 @@ final class EventController extends AbstractController
         return $this->redirectToRoute('category_show', ['id' => $category->getId()]);
     }
 
+    #[Route('/event/{title}_{id}/join', name: 'event_join', methods: ['GET', 'POST'])]
+    #[IsGranted('ROLE_USER')]
+    public function join(Request $request, EntityManagerInterface $entityManager, Event $event): Response
+    {
+        if($this->getUser() !== $event->getCreator()){
+
+            if (!$event->getUsers()->contains($this->getUser())) {
+                $event->addUser($this->getUser());
+
+                $entityManager->persist($event);
+                $entityManager->flush();
+                flash()->success('You have successfully joined this event');
+            } else {
+                flash()->error('You are already registered for this event');
+            }
+        } else {
+            flash()->error('You cannot join your own event');
+        }
+
+        return $this->redirectToRoute('event_show', ['id' => $event->getId(), 'title' => $event->getTitle()]);
+    }
 
     /**
      * Event's detail page
@@ -122,8 +151,10 @@ final class EventController extends AbstractController
     #[Route('/event/{title}_{id}', name: 'event_show', methods: ['GET'])]
     public function show(Event $event): Response
     {
+        $isJoined = $event->getUsers()->contains($this->getUser()) ?? false;
         return $this->render('event/show.html.twig', [
-            'event' => $event
+            'event' => $event,
+            'isJoined' => $isJoined,
         ]);
     }
 }
