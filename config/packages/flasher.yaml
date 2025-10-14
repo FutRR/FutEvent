@@ -1,6 +1,6 @@
 flasher:
     # Default notification library (e.g., 'flasher', 'toastr', 'noty', 'notyf', 'sweetalert')
-    default: theme.aurora
+    default: flasher
 
     # Path to the main PHPFlasher JavaScript file
     main_script: '/vendor/flasher/flasher.min.js'
@@ -15,12 +15,6 @@ flasher:
     #     timeout: 5000
     #     # Where the notification appears on the screen
     #     position: 'top-right'
-    themes:
-        aurora:
-            scripts:
-                - '/vendor/flasher/themes/theme.aurora.min.js'
-            styles:
-                - '/vendor/flasher/themes/theme.aurora.min.css'
 
 
     # Automatically inject JavaScript and CSS assets into your HTML pages
