@@ -33,7 +33,17 @@
            <h3><i class="fa-solid fa-user"></i> {{ event.users | length }} users</h3>
 
            <div class="btns">
-               <a class="btn">Join</a>
+               {% if app.user == event.creator %}
+                   <a class="btn" href="{{ path('event_edit', {'id': event.id}) }}">Edit <i class="fa-solid fa-pen-to-square"></i></a>
+               {% else %}
+                   {% if app.user in event.users %}
+                       <a class="btn event-leave-btn" href="{{ path('event_leave', {id: event.id, title: event.title}) }}">
+                           Joined <i class="fa-solid fa-check"></i>
+                       </a>
+                   {% else %}
+                       <a class="btn" href={{ path('event_join', {id: event.id, title: event.title}) }}>Join</a>
+                   {% endif %}
+               {% endif %}
                <a class="btn" href="{{ path(name = 'event_show', parameters = {title: event.title, id: event.id}) }}">See more <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
            </div>
        </div>

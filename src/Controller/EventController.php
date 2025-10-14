@@ -166,6 +166,10 @@ final class EventController extends AbstractController
             flash()->error('You cannot leave your own event');
         }
 
+        $referer = $request->headers->get('referer');
+        if ($referer) {
+            return $this->redirect($referer);
+        }
         return $this->redirectToRoute('event_show', ['id' => $event->getId(), 'title' => $event->getTitle()]);
     }
 
