@@ -59,16 +59,20 @@ class EventType extends AbstractType
                 'row_attr' => ['class' => 'form-group'],
                 'label' => 'Ends On',
 
-            ])
-            ->add('category', EntityType::class, [
+            ]);
+
+            $categoryOptions = [
                 'class' => Category::class,
                 'choice_label' => 'name',
                 'placeholder' => 'Choose a category',
                 'choice_value' => 'id',
-                'data' => $options['category_id'] ?
-                    $this->entityManager->getRepository(Category::class)->find($options['category_id']) :
-                    null,
-            ])
+            ];
+
+            if ($options['category_id']) {
+                $categoryOptions['data'] = $this->entityManager->getRepository(Category::class)->find($options['category_id']);
+            }
+
+            $builder->add('category', EntityType::class, $categoryOptions)
         ;
     }
 
