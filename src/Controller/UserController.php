@@ -33,8 +33,9 @@ final class UserController extends AbstractController
             return $this->render('user/show.html.twig', [
                 'user' => $user,
             ]);
+        } else{
+            flash()->error('You are not allowed to access this page');
         }
-        flash()->error('You are not allowed to access this page');
         return $this->redirectToRoute('default_home');
 
     }

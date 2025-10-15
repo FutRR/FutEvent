@@ -157,6 +157,14 @@ final class EventController extends AbstractController
         return $this->redirectToRoute('event_show', ['id' => $event->getId(), 'title' => $event->getTitle()]);
     }
 
+    /**
+     * Leave an event
+     * ex. https://localhost:8000/event/dnb-dj-set-4564/leave
+     * @param Request $request
+     * @param EntityManagerInterface $entityManager
+     * @param Event $event
+     * @return Response
+     */
     #[Route('/event/{title}_{id}/leave', name: 'event_leave', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
     public function leave(Request $request, EntityManagerInterface $entityManager, Event $event): Response
