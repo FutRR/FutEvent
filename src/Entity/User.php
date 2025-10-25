@@ -259,4 +259,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+
+    public function hasEventRequest(Event $event): bool
+    {
+        foreach ($this->eventRequests as $eventRequest) {
+            if ($eventRequest->getEvent() === $event) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

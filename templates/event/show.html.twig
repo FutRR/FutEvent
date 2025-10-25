@@ -40,7 +40,13 @@
                         Joined <i class="fa-solid fa-check"></i>
                     </a>
                 {% else %}
-                    <a class="btn event-detail-btn" href={{ path('event_join', {id: event.id, title: event.title}) }}>Join</a>
+                    {% if event.isPrivate %}
+                        <a class="btn event-detail-btn" href={{ path('event_request', {id: event.id, title: event.title}) }}>Send a request</a>
+                    {% elseif user.hasEventRequest(event) %}
+                        <a class="btn event-detail-btn" href="{{ path('event_cancel_request', {id: event.id, title: event.title}) }}">Cancel request</a>
+                    {% else %}
+                        <a class="btn event-detail-btn" href={{ path('event_join', {id: event.id, title: event.title}) }}>Join</a>
+                    {% endif %}
                 {% endif %}
                 <a class="btn btn-secondary-detail event-detail-btn" href="">Share <i class="fa-solid fa-share-nodes"></i></a>
                 {% if app.user == event.creator %}
