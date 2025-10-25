@@ -205,16 +205,21 @@ final class EventController extends AbstractController
 
             if (!$event->getUsers()->contains($user)) {
 
-                if ($event->isPrivate()){
-                    $eventRequest = new EventRequest();
-                    $eventRequest->setEvent($event);
-                    $eventRequest->setUser($user);
-                    $eventRequest->setCreatedAt(new \DateTimeImmutable('now'));
-                    $entityManager->persist($eventRequest);
-                    $entityManager->flush();
-                    flash()->success('You have successfully sent a request');
+                if(!$user->hasEventRequest($event)){
+
+                    if ($event->isPrivate()){
+                        $eventRequest = new EventRequest();
+                        $eventRequest->setEvent($event);
+                        $eventRequest->setUser($user);
+                        $eventRequest->setCreatedAt(new \DateTimeImmutable('now'));
+                        $entityManager->persist($eventRequest);
+                        $entityManager->flush();
+                        flash()->success('You have successfully sent a request');
+                    } else {
+                        flash()->error('You cannot send a request to this event');
+                    }
                 } else {
-                    flash()->error('You cannot send a request to this event');
+                    flash()->error('You have already sent a request to this event');
                 }
             } else{
                 flash()->error('You are already registered for this event');
@@ -230,7 +235,7 @@ final class EventController extends AbstractController
         return $this->redirectToRoute('event_show', ['id' => $event->getId(), 'title' => $event->getTitle()]);
     }
 
-    #[Route('/event/{title}_{id}/cancel_request', name: 'event_cancel_request', methods: ['GET', 'POST'])]
+    #[Route('/event/{title}_{id}/cancel_request', name: 'event_cancel_request', methods: ['GET'])]
     public function cancelRequest(Request $request, EntityManagerInterface $entityManager, Event $event): Response
     {
         /** @var User $user */
@@ -238,13 +243,13 @@ final class EventController extends AbstractController
 
         if($user !== $event->getCreator()) {
 
-            if (!$event->getUsers()->contains($user)) {
+            if($user->hasEventRequest($event)) {
 
-                if ($event->isPrivate()){
+                if ($event->isPrivate()) {
 
                     $eventRequest = $entityManager->getRepository(EventRequest::class)->findOneBy([
-                        'event' => $event,
-                        'user' => $user,
+                        'Event' => $event,
+                        'User' => $user,
                     ]);
                     if ($eventRequest) {
                         $entityManager->remove($eventRequest);
@@ -256,8 +261,8 @@ final class EventController extends AbstractController
                 } else {
                     flash()->error('An error occurred while canceling your request');
                 }
-            } else{
-                flash()->error('You are not registered for this event');
+            } else {
+                flash()->error('You have not sent a request to this event');
             }
         } else {
             flash()->error('You cannot cancel a request to this event');
