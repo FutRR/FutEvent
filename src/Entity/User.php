@@ -55,10 +55,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: Event::class, mappedBy: 'creator')]
     private Collection $createdEvents;
 
+    /**
+     * @var Collection<int, EventRequest>
+     */
+    #[ORM\OneToMany(targetEntity: EventRequest::class, mappedBy: 'User', orphanRemoval: true)]
+    private Collection $eventRequests;
+
     public function __construct()
     {
         $this->events = new ArrayCollection();
         $this->createdEvents = new ArrayCollection();
+        $this->eventRequests = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -217,6 +224,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($createdEvent->getCreator() === $this) {
                 $createdEvent->setCreator(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, EventRequest>
+     */
+    public function getEventRequests(): Collection
+    {
+        return $this->eventRequests;
+    }
+
+    public function addEventRequest(EventRequest $eventRequest): static
+    {
+        if (!$this->eventRequests->contains($eventRequest)) {
+            $this->eventRequests->add($eventRequest);
+            $eventRequest->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEventRequest(EventRequest $eventRequest): static
+    {
+        if ($this->eventRequests->removeElement($eventRequest)) {
+            // set the owning side to null (unless already changed)
+            if ($eventRequest->getUser() === $this) {
+                $eventRequest->setUser(null);
             }
         }
 

@@ -50,9 +50,19 @@ class Event
     #[ORM\JoinColumn(nullable: false)]
     private ?User $creator = null;
 
+    /**
+     * @var Collection<int, EventRequest>
+     */
+    #[ORM\OneToMany(targetEntity: EventRequest::class, mappedBy: 'Event', orphanRemoval: true)]
+    private Collection $eventRequests;
+
+    #[ORM\Column]
+    private ?bool $isPrivate = false;
+
     public function __construct()
     {
         $this->users = new ArrayCollection();
+        $this->eventRequests = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -164,6 +174,48 @@ class Event
     public function setCreator(?User $creator): static
     {
         $this->creator = $creator;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, EventRequest>
+     */
+    public function getEventRequests(): Collection
+    {
+        return $this->eventRequests;
+    }
+
+    public function addEventRequest(EventRequest $eventRequest): static
+    {
+        if (!$this->eventRequests->contains($eventRequest)) {
+            $this->eventRequests->add($eventRequest);
+            $eventRequest->setEvent($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEventRequest(EventRequest $eventRequest): static
+    {
+        if ($this->eventRequests->removeElement($eventRequest)) {
+            // set the owning side to null (unless already changed)
+            if ($eventRequest->getEvent() === $this) {
+                $eventRequest->setEvent(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function isPrivate(): ?bool
+    {
+        return $this->isPrivate;
+    }
+
+    public function setIsPrivate(bool $isPrivate): static
+    {
+        $this->isPrivate = $isPrivate;
 
         return $this;
     }
