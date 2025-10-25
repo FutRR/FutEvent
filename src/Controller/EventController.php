@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Event;
+use App\Entity\EventRequest;
 use App\Entity\User;
 use App\Form\EventType;
 use Doctrine\ORM\EntityManagerInterface;
@@ -185,6 +186,81 @@ final class EventController extends AbstractController
             }
         }else {
             flash()->error('You cannot leave your own event');
+        }
+
+        $referer = $request->headers->get('referer');
+        if ($referer) {
+            return $this->redirect($referer);
+        }
+        return $this->redirectToRoute('event_show', ['id' => $event->getId(), 'title' => $event->getTitle()]);
+    }
+
+    #[Route('/event/{title}_{id}/request', name: 'event_request', methods: ['GET', 'POST'])]
+    public function sendRequest(Request $request, EntityManagerInterface $entityManager, Event $event): Response
+    {
+        /** @var User $user */
+        $user = $this->getUser();
+
+        if($user !== $event->getCreator()) {
+
+            if (!$event->getUsers()->contains($user)) {
+
+                if ($event->isPrivate()){
+                    $eventRequest = new EventRequest();
+                    $eventRequest->setEvent($event);
+                    $eventRequest->setUser($user);
+                    $eventRequest->setCreatedAt(new \DateTimeImmutable('now'));
+                    $entityManager->persist($eventRequest);
+                    $entityManager->flush();
+                    flash()->success('You have successfully sent a request');
+                } else {
+                    flash()->error('You cannot send a request to this event');
+                }
+            } else{
+                flash()->error('You are already registered for this event');
+            }
+        } else {
+            flash()->error('You cannot send a request to this event');
+        }
+
+        $referer = $request->headers->get('referer');
+        if ($referer) {
+            return $this->redirect($referer);
+        }
+        return $this->redirectToRoute('event_show', ['id' => $event->getId(), 'title' => $event->getTitle()]);
+    }
+
+    #[Route('/event/{title}_{id}/cancel_request', name: 'event_cancel_request', methods: ['GET', 'POST'])]
+    public function cancelRequest(Request $request, EntityManagerInterface $entityManager, Event $event): Response
+    {
+        /** @var User $user */
+        $user = $this->getUser();
+
+        if($user !== $event->getCreator()) {
+
+            if (!$event->getUsers()->contains($user)) {
+
+                if ($event->isPrivate()){
+
+                    $eventRequest = $entityManager->getRepository(EventRequest::class)->findOneBy([
+                        'event' => $event,
+                        'user' => $user,
+                    ]);
+                    if ($eventRequest) {
+                        $entityManager->remove($eventRequest);
+                        $entityManager->flush();
+                        flash()->info('You have successfully canceled your request');
+                    } else {
+                        flash()->error('No request found to cancel');
+                    }
+                } else {
+                    flash()->error('An error occurred while canceling your request');
+                }
+            } else{
+                flash()->error('You are not registered for this event');
+            }
+        } else {
+            flash()->error('You cannot cancel a request to this event');
         }
 
         $referer = $request->headers->get('referer');
