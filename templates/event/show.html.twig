@@ -31,8 +31,25 @@
         </div>
 
         <div class="event-detail-bottom">
+            <div class="users">
+                <h3><i class="fa-solid fa-user"></i> {{ event.users | length }} users</h3>
+                {% for user in event.users %}
+                    <a href="{{ path('user_profile', {username: user.username}) }}">{{ user.username }}</a>
+                {% endfor %}
 
-            <h3><i class="fa-solid fa-user"></i> {{ event.users | length }} users</h3>
+                {% if event.isPrivate %}
+                    {% if app.user == event.creator %}
+                        <h3>Pending Requests</h3>
+                        {% for request in requests %}
+                            <div class="request">
+                                <h4>{{ request.user.username }}</h4>
+                                <a href="{{ path('event_accept_request', {id: event.id, title: event.title, requestUser: request.user.id}) }}">Accept request</a>
+                            </div>
+
+                        {% endfor %}
+                    {% endif %}
+                {% endif %}
+            </div>
 
             <div class="btns">
                 {% if isJoined %}

@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Event;
 use App\Entity\EventRequest;
 use App\Entity\User;
+use App\Enum\EventRequestStatus;
 use App\Form\EventType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -151,10 +152,7 @@ final class EventController extends AbstractController
             flash()->error('You cannot join your own event');
         }
 
-        $referer = $request->headers->get('referer');
-        if ($referer) {
-            return $this->redirect($referer);
-        }
+        $this->redirectToReferer($request);
         return $this->redirectToRoute('event_show', ['id' => $event->getId(), 'title' => $event->getTitle()]);
     }
 
@@ -275,6 +273,41 @@ final class EventController extends AbstractController
         return $this->redirectToRoute('event_show', ['id' => $event->getId(), 'title' => $event->getTitle()]);
     }
 
+    #[Route('/event/{title}_{id}/accept_request/{requestUser}', name: 'event_accept_request', methods: ['GET'])]
+    public function acceptRequest(Request $request, EntityManagerInterface$entityManager, Event $event, int $requestUser)
+    {
+        /** @var User $user */
+        $user = $this->getUser();
+
+        $requestUser = $entityManager->getRepository(User::class)->findOneBy(['id' => $requestUser]);
+
+        if ($event->getCreator() === $user) {
+            $eventRequest = $entityManager->getRepository(EventRequest::class)->findOneBy([
+                'Event' => $event,
+                'User' => $requestUser,
+            ]);
+
+            if ($eventRequest->getStatus() == EventRequestStatus::PENDING) {
+                $eventRequest->setStatus(EventRequestStatus::ACCEPTED);
+                $eventRequest->setAcceptedAt(new \DateTimeImmutable('now'));
+                $entityManager->persist($eventRequest);
+                $entityManager->flush();
+                flash()->success('Request accepted successfully');
+            } else {
+                flash()->error('Request already accepted');
+            }
+        } else {
+            flash()->error('You cannot accept a request to this event');
+        }
+
+        $referer = $request->headers->get('referer');
+        if ($referer) {
+            return $this->redirect($referer);
+        }
+        return $this->redirectToRoute('event_show', ['id' => $event->getId(), 'title' => $event->getTitle()]);
+
+    }
+
     /**
      * Event's detail page
      * ex. https://localhost:8000/music/dnb-dj-set-4564
@@ -286,9 +319,13 @@ final class EventController extends AbstractController
     public function show(Event $event): Response
     {
         $isJoined = $event->getUsers()->contains($this->getUser()) ?? false;
+        $requests = $event->getEventRequests()->filter(function (EventRequest $request) {;
+            return $request->getStatus() === EventRequestStatus::PENDING;
+        });
         return $this->render('event/show.html.twig', [
             'event' => $event,
             'isJoined' => $isJoined,
+            'requests' => $requests,
         ]);
     }
 }
