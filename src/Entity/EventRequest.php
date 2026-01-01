@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Enum\EventRequestStatus;
 use App\Repository\EventRequestRepository;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -21,8 +22,8 @@ class EventRequest
     #[ORM\JoinColumn(nullable: false)]
     private ?User $User = null;
 
-    #[ORM\Column(length: 20)]
-    private ?string $status = 'pending';
+    #[ORM\Column(length: 20, enumType: EventRequestStatus::class)]
+    private EventRequestStatus $status = EventRequestStatus::PENDING;
 
     #[ORM\Column(options: ['default' => 'CURRENT_TIMESTAMP'])]
     private ?\DateTimeImmutable $createdAt = null;
@@ -59,12 +60,12 @@ class EventRequest
         return $this;
     }
 
-    public function getStatus(): ?string
+    public function getStatus(): EventRequestStatus
     {
         return $this->status;
     }
 
-    public function setStatus(string $status): static
+    public function setStatus(EventRequestStatus $status): static
     {
         $this->status = $status;
 
