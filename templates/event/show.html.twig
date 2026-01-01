@@ -34,19 +34,23 @@
             <div class="users">
                 <h3><i class="fa-solid fa-user"></i> {{ event.users | length }} users</h3>
                 {% for user in event.users %}
-                    <a href="{{ path('user_profile', {username: user.username}) }}">{{ user.username }}</a>
+                    <h4>{{ user.username }}</h4>
                 {% endfor %}
 
                 {% if event.isPrivate %}
                     {% if app.user == event.creator %}
-                        <h3>Pending Requests</h3>
-                        {% for request in requests %}
-                            <div class="request">
-                                <h4>{{ request.user.username }}</h4>
-                                <a href="{{ path('event_accept_request', {id: event.id, title: event.title, requestUser: request.user.id}) }}">Accept request</a>
-                            </div>
+                        {% if requests | length > 0 %}
+                            <h3>Pending Requests</h3>
+                            {% for request in requests %}
+                                <div class="request">
+                                    <h4>{{ request.user.username }}</h4>
+                                    <a class="btn" href="{{ path('event_accept_request', {id: event.id, title: event.title, requestUser: request.user.id}) }}">Accept request</a>
+                                    <a class="btn" href="{{ path('event_deny_request', {id: event.id, title: event.title, requestUser: request.user.id}) }}">Deny request</a>
 
-                        {% endfor %}
+                                </div>
+
+                            {% endfor %}
+                        {% endif %}
                     {% endif %}
                 {% endif %}
             </div>
@@ -60,7 +64,7 @@
                     {% if event.isPrivate %}
                         {% if app.user.hasEventRequest(event) %}
                             <a class="btn event-detail-btn" href="{{ path('event_cancel_request', {id: event.id, title: event.title}) }}">Cancel request</a>
-                        {% else %}
+                        {% elseif app.user != event.creator %}
                             <a class="btn event-detail-btn" href="{{ path('event_request', {id: event.id, title: event.title}) }}">Send a request</a>
                         {% endif %}
                     {% else %}

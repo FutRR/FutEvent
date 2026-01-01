@@ -274,7 +274,7 @@ final class EventController extends AbstractController
     }
 
     #[Route('/event/{title}_{id}/accept_request/{requestUser}', name: 'event_accept_request', methods: ['GET'])]
-    public function acceptRequest(Request $request, EntityManagerInterface$entityManager, Event $event, int $requestUser)
+    public function acceptRequest(Request $request, EntityManagerInterface$entityManager, Event $event, int $requestUser): Response
     {
         /** @var User $user */
         $user = $this->getUser();
@@ -289,7 +289,8 @@ final class EventController extends AbstractController
 
             if ($eventRequest->getStatus() == EventRequestStatus::PENDING) {
                 $eventRequest->setStatus(EventRequestStatus::ACCEPTED);
-                $eventRequest->setAcceptedAt(new \DateTimeImmutable('now'));
+                $eventRequest->setRespondedAt(new \DateTimeImmutable('now'));
+                $event->addUser($requestUser);
                 $entityManager->persist($eventRequest);
                 $entityManager->flush();
                 flash()->success('Request accepted successfully');
@@ -298,6 +299,38 @@ final class EventController extends AbstractController
             }
         } else {
             flash()->error('You cannot accept a request to this event');
+        }
+
+        $referer = $request->headers->get('referer');
+        if ($referer) {
+            return $this->redirect($referer);
+        }
+        return $this->redirectToRoute('event_show', ['id' => $event->getId(), 'title' => $event->getTitle()]);
+    }
+
+    #[Route('/event/{title}_{id}/deny_request/{requestUser}', name: 'event_deny_request', methods: ['GET'])]
+    public function denyRequest(Request $request, EntityManagerInterface$entityManager, Event $event, int $requestUser): Response
+    {
+        /** @var User $user */
+        $user = $this->getUser();
+
+        $requestUser = $entityManager->getRepository(User::class)->findOneBy(['id' => $requestUser]);
+
+        if ($event->getCreator() === $user) {
+            $eventRequest = $entityManager->getRepository(EventRequest::class)->findOneBy([
+                'Event' => $event,
+                'User' => $requestUser,
+            ]);
+
+            if ($eventRequest->getStatus() == EventRequestStatus::PENDING) {
+                $entityManager->remove($eventRequest);
+                $entityManager->flush();
+                flash()->success('Request denied successfully');
+            } else {
+                flash()->error('Request already denied');
+            }
+        } else {
+            flash()->error('You cannot deny a request to this event');
         }
 
         $referer = $request->headers->get('referer');
