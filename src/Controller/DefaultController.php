@@ -15,7 +15,7 @@ final class DefaultController extends AbstractController
     public function home(EventRepository $eventRepository): Response
     {
         # Récupération des 2 prochains événements
-        $events = $eventRepository->findBy([], ['datetime_start' => 'ASC'], 2);
+        $events = $eventRepository->findBy([], ['datetime_start' => 'DESC'], 2);
 
         if($this->getUser()){
             $createdEvent = $eventRepository->findOneBy(['creator' => $this->getUser()], ['datetime_start' => 'DESC']);
