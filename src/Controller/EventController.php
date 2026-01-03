@@ -150,14 +150,19 @@ final class EventController extends AbstractController
 
         if($user !== $event->getCreator()){
 
-            if (!$event->getUsers()->contains($user)) {
-                $event->addUser($user);
+            if(!$event->isPrivate()) {
 
-                $entityManager->persist($event);
-                $entityManager->flush();
-                flash()->success('You have successfully joined this event');
-            } else {
-                flash()->error('You are already registered for this event');
+                if (!$event->getUsers()->contains($user)) {
+                    $event->addUser($user);
+
+                    $entityManager->persist($event);
+                    $entityManager->flush();
+                    flash()->success('You have successfully joined this event');
+                } else {
+                    flash()->error('You are already registered for this event');
+                }
+            } else{
+                flash()->error('You cannot join this private event');
             }
         } else {
             flash()->error('You cannot join your own event');
