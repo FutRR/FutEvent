@@ -74,9 +74,11 @@
                 <a class="btn btn-secondary-detail event-detail-btn" href="">Share <i class="fa-solid fa-share-nodes"></i></a>
                 {% if app.user == event.creator %}
                     <a class="btn btn-secondary-detail event-detail-btn" href="{{ path('event_edit', {id: event.id}) }}">Edit <i class="fa-solid fa-pen-to-square"></i></a>
-                    <form method="post" action="{{ path('event_delete', {id: event.id}) }}" onsubmit="return confirm('Are you sure you want to delete this event?');">
+                    <form method="post" action="{{ path('event_delete', {id: event.id}) }}" style="width: 100%;">
                         <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ event.id) }}">
-                        <button type="submit" class="btn btn-secondary-detail event-detail-btn">Delete</button>
+                        <button type="submit" class="btn btn-delete-detail event-detail-btn" onclick="return confirm('Are you sure you want to delete this event?');">
+                            Delete <i class="fa-regular fa-trash-can"></i>
+                        </button>
                     </form>
                 {% endif %}
             </div>
