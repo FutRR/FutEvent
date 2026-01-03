@@ -31,6 +31,7 @@
         {{ form_row(eventForm.image) }}
         {{ form_row(eventForm.datetime_start) }}
         {{ form_row(eventForm.datetime_end) }}
+        {{ form_row(eventForm.isPrivate) }}
         {{ form_row(eventForm.category) }}
 
         <input type="submit" class="btn" value="{% if edit %}Edit{% else %}Create{% endif %}">

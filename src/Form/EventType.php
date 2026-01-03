@@ -8,6 +8,7 @@ use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -59,6 +60,11 @@ class EventType extends AbstractType
                 'row_attr' => ['class' => 'form-group'],
                 'label' => 'Ends On',
 
+            ])
+            ->add('isPrivate', CheckboxType::class, [
+                'label' => 'Private Event',
+                'required' => false,
+                'row_attr' => ['class' => 'form-group'],
             ]);
 
             $categoryOptions = [
