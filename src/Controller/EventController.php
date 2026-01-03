@@ -127,7 +127,7 @@ final class EventController extends AbstractController
             $this->addFlash('success', 'Event deleted successfully');
             return $this->redirectToRoute('category_show', ['id' => $category->getId()]);
         } catch (\Exception $e) {
-            $this->addFlash('error', 'An error occurred while deleting the event');
+            $this->addFlash('error', 'An error occurred while deleting the event : ' . $e->getMessage());
         }
 
         return $this->redirectToRoute('category_show', ['id' => $category->getId()]);
