@@ -186,14 +186,12 @@ final class EventController extends AbstractController
             flash()->error('You cannot leave your own event');
         }
 
-        $referer = $request->headers->get('referer');
-        if ($referer) {
-            return $this->redirect($referer);
-        }
+        $this->redirectToReferer($request);
         return $this->redirectToRoute('event_show', ['id' => $event->getId(), 'title' => $event->getTitle()]);
     }
 
     #[Route('/event/{title}_{id}/request', name: 'event_request', methods: ['GET', 'POST'])]
+    #[IsGranted('ROLE_USER')]
     public function sendRequest(Request $request, EntityManagerInterface $entityManager, Event $event): Response
     {
         /** @var User $user */
@@ -226,14 +224,12 @@ final class EventController extends AbstractController
             flash()->error('You cannot send a request to this event');
         }
 
-        $referer = $request->headers->get('referer');
-        if ($referer) {
-            return $this->redirect($referer);
-        }
+        $this->redirectToReferer($request);
         return $this->redirectToRoute('event_show', ['id' => $event->getId(), 'title' => $event->getTitle()]);
     }
 
     #[Route('/event/{title}_{id}/cancel_request', name: 'event_cancel_request', methods: ['GET'])]
+    #[IsGranted('ROLE_USER')]
     public function cancelRequest(Request $request, EntityManagerInterface $entityManager, Event $event): Response
     {
         /** @var User $user */
@@ -266,10 +262,7 @@ final class EventController extends AbstractController
             flash()->error('You cannot cancel a request to this event');
         }
 
-        $referer = $request->headers->get('referer');
-        if ($referer) {
-            return $this->redirect($referer);
-        }
+        $this->redirectToReferer($request);
         return $this->redirectToRoute('event_show', ['id' => $event->getId(), 'title' => $event->getTitle()]);
     }
 
@@ -301,10 +294,7 @@ final class EventController extends AbstractController
             flash()->error('You cannot accept a request to this event');
         }
 
-        $referer = $request->headers->get('referer');
-        if ($referer) {
-            return $this->redirect($referer);
-        }
+        $this->redirectToReferer($request);
         return $this->redirectToRoute('event_show', ['id' => $event->getId(), 'title' => $event->getTitle()]);
     }
 
@@ -333,10 +323,7 @@ final class EventController extends AbstractController
             flash()->error('You cannot deny a request to this event');
         }
 
-        $referer = $request->headers->get('referer');
-        if ($referer) {
-            return $this->redirect($referer);
-        }
+        $this->redirectToReferer($request);
         return $this->redirectToRoute('event_show', ['id' => $event->getId(), 'title' => $event->getTitle()]);
 
     }
