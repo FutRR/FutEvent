@@ -17,6 +17,16 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 final class EventController extends AbstractController
 {
 
+    /**
+     * Create or edit an event
+     * ex. https://localhost:8000/event/new/123
+     * ex. https://localhost:8000/event/123/edit
+     * @param Request $request
+     * @param EntityManagerInterface $entityManager
+     * @param Event|null $event
+     * @param int|null $categoryId
+     * @return Response
+     */
     #[Route('/event/new/{categoryId?}', name: 'event_new', methods: ['GET', 'POST'])]
     #[Route('/event/{id}/edit', name: 'event_edit', methods: ['GET', 'POST'])]
     #[isGranted('ROLE_USER')]
@@ -105,6 +115,7 @@ final class EventController extends AbstractController
         if ($event->getCreator() !== $this->getUser()) {
             $this->addFlash('error', 'You can only delete your own events');
         }
+
         if (!$this->isCsrfTokenValid('delete'.$event->getId(), $request->request->get('_token'))) {
             $this->addFlash('error', 'Invalid CSRF token');
             return $this->redirectToRoute('event_show', ['id' => $event->getId(), 'title' => $event->getTitle()]);
@@ -190,6 +201,14 @@ final class EventController extends AbstractController
         return $this->redirectToRoute('event_show', ['id' => $event->getId(), 'title' => $event->getTitle()]);
     }
 
+    /**
+     * Send a request to join an event
+     * ex. https://localhost:8000/event/dnb-dj-set-4564/request
+     * @param Request $request
+     * @param EntityManagerInterface $entityManager
+     * @param Event $event
+     * @return Response
+     */
     #[Route('/event/{title}_{id}/request', name: 'event_request', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
     public function sendRequest(Request $request, EntityManagerInterface $entityManager, Event $event): Response
@@ -228,6 +247,14 @@ final class EventController extends AbstractController
         return $this->redirectToRoute('event_show', ['id' => $event->getId(), 'title' => $event->getTitle()]);
     }
 
+    /**
+     * Cancel a request to join an event
+     * ex. https://localhost:8000/event/dnb-dj-set-4564/cancel_request
+     * @param Request $request
+     * @param EntityManagerInterface $entityManager
+     * @param Event $event
+     * @return Response
+     */
     #[Route('/event/{title}_{id}/cancel_request', name: 'event_cancel_request', methods: ['GET'])]
     #[IsGranted('ROLE_USER')]
     public function cancelRequest(Request $request, EntityManagerInterface $entityManager, Event $event): Response
@@ -266,6 +293,15 @@ final class EventController extends AbstractController
         return $this->redirectToRoute('event_show', ['id' => $event->getId(), 'title' => $event->getTitle()]);
     }
 
+    /**
+     * Accept a request to join an event
+     * ex. https://localhost:8000/event/dnb-dj-set-4564/accept_request/123
+     * @param Request $request
+     * @param EntityManagerInterface $entityManager
+     * @param Event $event
+     * @param int $requestUser
+     * @return Response
+     */
     #[Route('/event/{title}_{id}/accept_request/{requestUser}', name: 'event_accept_request', methods: ['GET'])]
     public function acceptRequest(Request $request, EntityManagerInterface$entityManager, Event $event, int $requestUser): Response
     {
@@ -298,6 +334,15 @@ final class EventController extends AbstractController
         return $this->redirectToRoute('event_show', ['id' => $event->getId(), 'title' => $event->getTitle()]);
     }
 
+    /**
+     * Deny a request to join an event
+     * ex. https://localhost:8000/event/dnb-dj-set-4564/deny_request/123
+     * @param Request $request
+     * @param EntityManagerInterface $entityManager
+     * @param Event $event
+     * @param int $requestUser
+     * @return Response
+     */
     #[Route('/event/{title}_{id}/deny_request/{requestUser}', name: 'event_deny_request', methods: ['GET'])]
     public function denyRequest(Request $request, EntityManagerInterface$entityManager, Event $event, int $requestUser): Response
     {
