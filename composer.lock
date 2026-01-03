@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "84d5358463bb4b0110a15825fc60376a",
+    "content-hash": "c1d8df0a06f1e1c4cc834e93f29cc670",
     "packages": [
         {
             "name": "composer/semver",
@@ -4631,33 +4631,32 @@
         },
         {
             "name": "symfony/monolog-bundle",
-            "version": "v3.11.1",
+            "version": "v4.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/monolog-bundle.git",
-                "reference": "0e675a6e08f791ef960dc9c7e392787111a3f0c1"
+                "reference": "3b4ee2717ee56c5e1edb516140a175eb2a72bc66"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/monolog-bundle/zipball/0e675a6e08f791ef960dc9c7e392787111a3f0c1",
-                "reference": "0e675a6e08f791ef960dc9c7e392787111a3f0c1",
+                "url": "https://api.github.com/repos/symfony/monolog-bundle/zipball/3b4ee2717ee56c5e1edb516140a175eb2a72bc66",
+                "reference": "3b4ee2717ee56c5e1edb516140a175eb2a72bc66",
                 "shasum": ""
             },
             "require": {
                 "composer-runtime-api": "^2.0",
-                "monolog/monolog": "^1.25.1 || ^2.0 || ^3.0",
-                "php": ">=8.1",
-                "symfony/config": "^6.4 || ^7.0",
-                "symfony/dependency-injection": "^6.4 || ^7.0",
-                "symfony/deprecation-contracts": "^2.5 || ^3.0",
-                "symfony/http-kernel": "^6.4 || ^7.0",
-                "symfony/monolog-bridge": "^6.4 || ^7.0",
+                "monolog/monolog": "^3.5",
+                "php": ">=8.2",
+                "symfony/config": "^7.3 || ^8.0",
+                "symfony/dependency-injection": "^7.3 || ^8.0",
+                "symfony/http-kernel": "^7.3 || ^8.0",
+                "symfony/monolog-bridge": "^7.3 || ^8.0",
                 "symfony/polyfill-php84": "^1.30"
             },
             "require-dev": {
-                "symfony/console": "^6.4 || ^7.0",
-                "symfony/phpunit-bridge": "^7.3.3",
-                "symfony/yaml": "^6.4 || ^7.0"
+                "phpunit/phpunit": "^11.5.41 || ^12.3",
+                "symfony/console": "^7.3 || ^8.0",
+                "symfony/yaml": "^7.3 || ^8.0"
             },
             "type": "symfony-bundle",
             "autoload": {
@@ -4687,7 +4686,7 @@
             ],
             "support": {
                 "issues": "https://github.com/symfony/monolog-bundle/issues",
-                "source": "https://github.com/symfony/monolog-bundle/tree/v3.11.1"
+                "source": "https://github.com/symfony/monolog-bundle/tree/v4.0.1"
             },
             "funding": [
                 {
@@ -4707,7 +4706,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2025-12-08T07:58:26+00:00"
+            "time": "2025-12-08T08:00:13+00:00"
         },
         {
             "name": "symfony/notifier",
@@ -7965,88 +7964,6 @@
                 "source": "https://github.com/webmozarts/assert/tree/2.0.0"
             },
             "time": "2025-12-16T21:36:00+00:00"
-        },
-        {
-            "name": "yoeunes/regex-parser",
-            "version": "v1.0.4",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/yoeunes/regex-parser.git",
-                "reference": "d57cfa1f0b58f64585979fc424135ed84cc338c6"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/yoeunes/regex-parser/zipball/d57cfa1f0b58f64585979fc424135ed84cc338c6",
-                "reference": "d57cfa1f0b58f64585979fc424135ed84cc338c6",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=8.2"
-            },
-            "suggest": {
-                "phpstan/extension-installer": "To automatically enable the PHPStan rule for regex validation.",
-                "phpstan/phpstan": "To run static analysis and detect invalid regex patterns.",
-                "psr/cache": "To share AST cache via PSR-6 pools.",
-                "psr/simple-cache": "To share AST cache via PSR-16 caches."
-            },
-            "bin": [
-                "bin/regex"
-            ],
-            "type": "library",
-            "extra": {
-                "phpstan": {
-                    "includes": [
-                        "extension.neon"
-                    ]
-                },
-                "branch-alias": {
-                    "dev-main": "1.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "RegexParser\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Younes ENNAJI",
-                    "email": "younes.ennaji.pro@gmail.com",
-                    "homepage": "https://www.linkedin.com/in/younes--ennaji/",
-                    "role": "Developer"
-                }
-            ],
-            "description": "A powerful PCRE regex parser with lexer, AST builder, validation, ReDoS analysis, and syntax highlighting. Zero dependencies, blazing fast, and production-ready.",
-            "homepage": "https://github.com/yoeunes/regex-parser",
-            "keywords": [
-                "PCRE",
-                "ast",
-                "cli",
-                "lexer",
-                "parser",
-                "php",
-                "redos",
-                "regex",
-                "security",
-                "syntax-highlighting",
-                "validation"
-            ],
-            "support": {
-                "docs": "https://github.com/yoeunes/regex-parser#readme",
-                "issues": "https://github.com/yoeunes/regex-parser/issues",
-                "source": "https://github.com/yoeunes/regex-parser"
-            },
-            "funding": [
-                {
-                    "url": "https://github.com/sponsors/yoeunes",
-                    "type": "github"
-                }
-            ],
-            "time": "2026-01-02T04:54:59+00:00"
         }
     ],
     "packages-dev": [
