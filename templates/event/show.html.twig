@@ -56,19 +56,21 @@
             </div>
 
             <div class="btns">
-                {% if isJoined %}
-                    <a class="btn event-detail-btn event-leave-btn" href="{{ path('event_leave', {id: event.id, title: event.title}) }}">
-                        Joined <i class="fa-solid fa-check"></i>
-                    </a>
-                {% else %}
-                    {% if event.isPrivate %}
-                        {% if app.user.hasEventRequest(event) %}
-                            <a class="btn event-detail-btn" href="{{ path('event_cancel_request', {id: event.id, title: event.title}) }}">Cancel request</a>
-                        {% elseif app.user != event.creator %}
-                            <a class="btn event-detail-btn" href="{{ path('event_request', {id: event.id, title: event.title}) }}">Send a request</a>
-                        {% endif %}
+                {% if app.user != event.creator %}
+                    {% if isJoined %}
+                        <a class="btn event-detail-btn event-leave-btn" href="{{ path('event_leave', {id: event.id, title: event.title}) }}">
+                            Joined <i class="fa-solid fa-check"></i>
+                        </a>
                     {% else %}
-                        <a class="btn event-detail-btn" href="{{ path('event_join', {id: event.id, title: event.title}) }}">Join</a>
+                        {% if event.isPrivate %}
+                            {% if app.user.hasEventRequest(event) %}
+                                <a class="btn event-detail-btn" href="{{ path('event_cancel_request', {id: event.id, title: event.title}) }}">Cancel request</a>
+                            {% else %}
+                                <a class="btn event-detail-btn" href="{{ path('event_request', {id: event.id, title: event.title}) }}">Send request</a>
+                            {% endif %}
+                        {% else %}
+                            <a class="btn event-detail-btn" href="{{ path('event_join', {id: event.id, title: event.title}) }}">Join</a>
+                        {% endif %}
                     {% endif %}
                 {% endif %}
                 <a class="btn btn-secondary-detail event-detail-btn" href="">Share <i class="fa-solid fa-share-nodes"></i></a>

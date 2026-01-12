@@ -45,7 +45,7 @@
                                    {% if app.user and app.user.hasEventRequest(event) %}
                                        <a class="btn" href="{{ path('event_cancel_request', {id: event.id, title: event.title}) }}">Cancel request</a>
                                    {% elseif app.user != event.creator %}
-                                       <a class="btn" href="{{ path('event_request', {id: event.id, title: event.title}) }}">Send a request</a>
+                                       <a class="btn" href="{{ path('event_request', {id: event.id, title: event.title}) }}">Send request</a>
                                    {% endif %}
                                {% else %}
                                    {% if app.user in event.users %}
