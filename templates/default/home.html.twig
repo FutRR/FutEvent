@@ -11,59 +11,62 @@
 
             <h2>Upcoming events</h2>
            {% for event in events %}
-            <div class="home-event">
 
-                <figure class="event-img">
-                    {% if event.image %}
-                        <img src="{{ asset('img/event/' ~ event.image) }}" alt="">
-                    {% else %}
-                        <img src="{{ asset('img/partials/image_not_found.png') }}" alt="">
-                    {% endif %}
-                </figure>
+               {% include 'components/_event_card.html.twig' with { event: event } %}
 
-               <div class="home-event-text">
-                   <div class="home-event-title">
-                       <h2>{{ event.title|upper }}</h2>
-                       <h3>{{ event.datetimeStart|date("d/m/Y H:i") }}</h3>
-                       <h4>Created by {{ event.creator.username }}</h4>
-                   </div>
-                   <p class="event-description">
-                       {{ event.description}}
-                   </p>
-               </div>
+{#            <div class="home-event">#}
 
-               <div class="home-event-bottom">
+{#                <figure class="event-img">#}
+{#                    {% if event.image %}#}
+{#                        <img src="{{ asset('img/event/' ~ event.image) }}" alt="">#}
+{#                    {% else %}#}
+{#                        <img src="{{ asset('img/partials/image_not_found.png') }}" alt="">#}
+{#                    {% endif %}#}
+{#                </figure>#}
 
-                   <h3><i class="fa-solid fa-user"></i> {{ event.users | length }} users</h3>
+{#               <div class="home-event-text">#}
+{#                   <div class="home-event-title">#}
+{#                       <h2>{{ event.title|upper }}</h2>#}
+{#                       <h3>{{ event.datetimeStart|date("d/m/Y H:i") }}</h3>#}
+{#                       <h4>Created by {{ event.creator.username }}</h4>#}
+{#                   </div>#}
+{#                   <p class="event-description">#}
+{#                       {{ event.description}}#}
+{#                   </p>#}
+{#               </div>#}
 
-                   <div class="btns">
+{#               <div class="home-event-bottom">#}
 
-                       {% if app.user == event.creator %}
-                           <a class="btn" href="{{ path('event_edit', {'id': event.id}) }}">Edit <i class="fa-solid fa-pen-to-square"></i></a>
-                       {% else %}
-                               {% if event.isPrivate %}
-                                   {% if app.user and app.user.hasEventRequest(event) %}
-                                       <a class="btn" href="{{ path('event_cancel_request', {id: event.id, title: event.title}) }}">Cancel request</a>
-                                   {% elseif app.user != event.creator %}
-                                       <a class="btn" href="{{ path('event_request', {id: event.id, title: event.title}) }}">Send request</a>
-                                   {% endif %}
-                               {% else %}
-                                   {% if app.user in event.users %}
-                                       <a class="btn event-leave-btn" href="{{ path('event_leave', {id: event.id, title: event.title}) }}">
-                                           Joined <i class="fa-solid fa-check"></i>
-                                       </a>
-                                   {% else %}
-                                       <a class="btn" href={{ path('event_join', {id: event.id, title: event.title}) }}>Join</a>
-                                   {% endif %}
-                               {% endif %}
+{#                   <h3><i class="fa-solid fa-user"></i> {{ event.users | length }} users</h3>#}
 
-                       {% endif %}
+{#                   <div class="btns">#}
 
-                       <a class="btn" href="{{ path(name = 'event_show', parameters = {title: event.title, id: event.id}) }}">See more <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
-                   </div>
-               </div>
+{#                       {% if app.user == event.creator %}#}
+{#                           <a class="btn" href="{{ path('event_edit', {'id': event.id}) }}">Edit <i class="fa-solid fa-pen-to-square"></i></a>#}
+{#                       {% else %}#}
+{#                               {% if event.isPrivate %}#}
+{#                                   {% if app.user and app.user.hasEventRequest(event) %}#}
+{#                                       <a class="btn" href="{{ path('event_cancel_request', {id: event.id, title: event.title}) }}">Cancel request</a>#}
+{#                                   {% elseif app.user != event.creator %}#}
+{#                                       <a class="btn" href="{{ path('event_request', {id: event.id, title: event.title}) }}">Send request</a>#}
+{#                                   {% endif %}#}
+{#                               {% else %}#}
+{#                                   {% if app.user in event.users %}#}
+{#                                       <a class="btn event-leave-btn" href="{{ path('event_leave', {id: event.id, title: event.title}) }}">#}
+{#                                           Joined <i class="fa-solid fa-check"></i>#}
+{#                                       </a>#}
+{#                                   {% else %}#}
+{#                                       <a class="btn" href={{ path('event_join', {id: event.id, title: event.title}) }}>Join</a>#}
+{#                                   {% endif %}#}
+{#                               {% endif %}#}
 
-            </div>
+{#                       {% endif %}#}
+
+{#                       <a class="btn" href="{{ path(name = 'event_show', parameters = {title: event.title, id: event.id}) }}">See more <i class="fa-solid fa-arrow-up-right-from-square"></i></a>#}
+{#                   </div>#}
+{#               </div>#}
+
+{#            </div>#}
 
             {% else %}
                  <p>Aucun événement à venir.</p>

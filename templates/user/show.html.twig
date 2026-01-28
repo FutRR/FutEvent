@@ -30,23 +30,12 @@
             </div>
         </div>
 
-        <div class="card">
-            <div class="card-header">
-                <h3>Events Joined</h3>
-            </div>
-            <div class="card-body">
+        <div class="profile-joined">
+            <h3>Events Joined</h3>
                 {% if user.events|length > 0 %}
-                    <div class="list-group">
+                    <div class="joined-events">
                         {% for event in user.events %}
-                            <a href="{{ path('event_show', {'id': event.id, title: event.title}) }}"
-                               class="list-group-item list-group-item-action">
-                                <div class="d-flex w-100 justify-content-between">
-                                    <h5 class="mb-1">{{ event.title }}</h5>
-                                    <small>{{ event.datetimeStart|date('Y-m-d H:i') }}</small>
-                                </div>
-                                <p class="mb-1">{{ event.description|slice(0, 100) }}...</p>
-                                <small>Category: {{ event.category.name }}</small>
-                            </a>
+                            {% include 'components/_event_card.html.twig' with { event: event } %}
                         {% endfor %}
                     </div>
                 {% else %}

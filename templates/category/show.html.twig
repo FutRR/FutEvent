@@ -28,43 +28,8 @@
     </div>
 
     <div class="events-list">
-        {% for event in category.events %}
-            <div class="event">
-                <figure class="event-list-img">
-                    {% if event.image %}
-                        <img src="{{ asset('img/event/' ~ event.image) }}" alt="">
-                    {% else %}
-                        <img src="{{ asset('img/partials/image_not_found.png') }}" alt="">
-                    {% endif %}
-                </figure>
-                <div class="event-list-text">
-                    <div class="event-list-title">
-                        <h2>{{ event.title }}</h2>
-                        <p>{{ event.datetimeStart|date("d/m/Y H:i") }}</p>
-                    </div>
-                    <p class="event-list-description">
-                        {{ event.description }}
-                    </p>
-                </div>
-                {#<div class="event-list-users">
-                    <h3><i class="fa-solid fa-user"></i> {{ event.user_int }} users interested</h3>
-                    <h3><i class="fa-solid fa-user"></i> {{ event.user_registered }} user registered</h3>
-                </div>#}
-                <div class="btns">
-                    {% if app.user == event.creator %}
-                        <a class="btn" href="{{ path('event_edit', {'id': event.id}) }}">Edit <i class="fa-solid fa-pen-to-square"></i></a>
-                    {% else %}
-                        {% if app.user in event.users %}
-                            <a class="btn event-leave-btn" href="{{ path('event_leave', {id: event.id, title: event.title}) }}">
-                                Joined <i class="fa-solid fa-check"></i>
-                            </a>
-                        {% else %}
-                            <a class="btn" href={{ path('event_join', {id: event.id, title: event.title}) }}>Join</a>
-                        {% endif %}
-                    {% endif %}
-                    <a class="btn" href="{{ path('event_show', {title: event.title, id: event.id}) }}">See more <i class="fa-solid fa-arrow-up-right-from-square"></i></a>
-                </div>
-            </div>
+        {% for event in events %}
+            {% include 'components/_event_card.html.twig' with { event: event } %}
         {% else %}
             <p>No events found in this category.</p>
         {% endfor %}
