@@ -61,6 +61,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: EventRequest::class, mappedBy: 'User', orphanRemoval: true)]
     private Collection $eventRequests;
 
+    #[ORM\Column]
+    private ?bool $isGoogleUser = false;
+
     public function __construct()
     {
         $this->events = new ArrayCollection();
@@ -268,5 +271,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             }
         }
         return false;
+    }
+
+    public function isGoogleUser(): ?bool
+    {
+        return $this->isGoogleUser;
+    }
+
+    public function setIsGoogleUser(bool $isGoogleUser): static
+    {
+        $this->isGoogleUser = $isGoogleUser;
+
+        return $this;
     }
 }
