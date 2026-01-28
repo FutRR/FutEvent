@@ -84,8 +84,7 @@ class GoogleAuthenticator extends OAuth2Authenticator implements AuthenticationE
     public function start(Request $request, AuthenticationException $authException = null): Response
     {
         return new RedirectResponse(
-            '/connect/google',
-            Response::HTTP_TEMPORARY_REDIRECT
+            $this->router->generate('app_login')
         );
     }
 }
