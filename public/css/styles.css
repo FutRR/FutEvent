@@ -97,7 +97,7 @@ main{
     width: 60%;
 }
 
-.home-event{
+.event{
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -108,7 +108,7 @@ main{
     color: var(--light);
 }
 
-.home-event-text{
+.event-text{
     display: flex;
     flex-direction: column;
     align-self: flex-start;
@@ -116,14 +116,14 @@ main{
     width: 60%;
 }
 
-.home-event-title{
+.event-title{
     display: flex;
     justify-content: flex-start;
     align-items: center;
     gap: 1em;
 }
 
-.home-event-bottom{
+.event-bottom{
     display: flex;
     flex-direction: column;
     justify-content: space-between;
