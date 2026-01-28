@@ -55,3 +55,74 @@ Start the Symfony development server:
 ```bash
     symfony server:start
    ```
+
+## Docker
+
+This project includes a Docker setup (see `docker-compose.yml` and the `docker/` directory).
+
+### Prerequisites
+
+- Docker + Docker Compose (Compose v2 recommended)
+
+### Start containers
+
+From the project root:
+
+```bash
+docker compose up -d --build
+```
+
+Check status:
+
+```bash
+docker compose ps
+```
+
+### Install PHP dependencies (inside the container)
+
+```bash
+docker compose exec php composer install
+```
+
+### Database & migrations (inside the container)
+
+```bash
+docker compose exec php php bin/console doctrine:database:create
+docker compose exec php php bin/console doctrine:migrations:migrate
+```
+
+(Optional) load fixtures:
+
+```bash
+docker compose exec php php bin/console doctrine:fixtures:load
+```
+
+### Open the application
+
+- Use the port exposed by `docker-compose.yml` (typically `http://localhost:xxxx`).
+
+### Useful commands
+
+Stop containers:
+
+```bash
+docker compose down
+```
+
+View logs:
+
+```bash
+docker compose logs -f
+```
+
+Run Symfony console commands:
+
+```bash
+docker compose exec php php bin/console
+```
+
+Run tests:
+
+```bash
+docker compose exec php ./vendor/bin/phpunit
+```
