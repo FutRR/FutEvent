@@ -130,6 +130,11 @@ class Event
         return $this;
     }
 
+    public function hasStarted(): bool
+    {
+        return $this->getDatetimeStart() < new \DateTimeImmutable();
+    }
+
     public function getCategory(): ?Category
     {
         return $this->category;
