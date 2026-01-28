@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Category;
 use App\Form\CategoryType;
 use App\Repository\CategoryRepository;
+use App\Repository\EventRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -103,8 +104,13 @@ final class CategoryController extends AbstractController
      * @return Response
      */
     #[Route('/category/{id}', name: 'category_show', methods: ['GET'])]
-    public function show(Category $category): Response
+    public function show(Category $category, EventRepository $eventRepository): Response
     {
-        return $this->render('category/show.html.twig', ['category' => $category]);
+        $events = $eventRepository->findBy(['category' => $category], ['datetime_start' => 'DESC'], 2);
+
+        return $this->render('category/show.html.twig', [
+            'events' => $events,
+            'category' => $category
+        ]);
     }
 }
