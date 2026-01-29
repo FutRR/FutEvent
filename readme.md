@@ -1,4 +1,4 @@
-![CI](https://github.com/FutRR/FutEvent/actions/workflows/ci.yml/badge.svg)
+![CI](https://github.com/FutRR/FutEvent/actions/workflows/ci.yml/badge.svg?branch=master)
 
 # Event Management Application
 
