@@ -22,7 +22,7 @@ jobs:
           restore-keys: composer-
 
       - name: Build Docker image
-        run: docker build -t futevent-php docker/php/Dockerfile
+        run: docker build -t futevent-php -f docker/php/Dockerfile
 
       - name: Run Composer install
         run: |
