@@ -32,6 +32,7 @@ class GoogleAuthenticator extends OAuth2Authenticator implements AuthenticationE
 
     public function supports(Request $request): ?bool
     {
+        dump('GOOGLE AUTHENTICATOR SUPPORTS CALLED');
         // continue ONLY if the current ROUTE matches the check ROUTE
         return $request->attributes->get('_route') === 'connect_google_check';
     }
@@ -41,10 +42,11 @@ class GoogleAuthenticator extends OAuth2Authenticator implements AuthenticationE
         $client = $this->clientRegistry->getClient('google');
         $accessToken = $this->fetchAccessToken($client);
 
+        $googleUser = $client->fetchUserFromToken($accessToken);
+        $email = $googleUser->getEmail();
+
         return new SelfValidatingPassport(
-            new UserBadge($accessToken->getToken(), function () use ($accessToken, $client) {
-                $googleUser = $client->fetchUserFromToken($accessToken);
-                $email = $googleUser->getEmail();
+            new UserBadge($email, function () use ($email) {
 
                 $existingUser = $this->entityManager->getRepository(User::class)->findOneBy(['email' => $email]);
 
