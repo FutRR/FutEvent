@@ -1,3 +1,5 @@
+![CI](https://github.com/<FutRR>/<FutEvent>/actions/workflows/ci.yml/badge.svg)
+
 # Event Management Application
 
 A Symfony 7.3 web application for managing events and categories with user authentication.
