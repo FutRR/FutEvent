@@ -1,4 +1,4 @@
-[![CI](https://github.com/FutRR/FutEvent/actions/workflows/docker-image.yml/badge.svg)](https://github.com/FutRR/FutEvent/actions/workflows/docker-image.yml)
+[![CI](https://github.com/FutRR/FutEvent/actions/workflows/docker-image.yml/badge.svg)](https://github.com/FutRR/FutEvent/actions/workflows/docker-image.yml) [![CD](https://github.com/FutRR/FutEvent/actions/workflows/docker-publish.yml/badge.svg)](https://github.com/FutRR/FutEvent/actions/workflows/docker-publish.yml)
 
 # Event Management Application
 
