@@ -1,0 +1,29 @@
+name: CI
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Build Docker image
+        run: docker build -t futevent-php -f docker/php/Dockerfile .
+
+      - name: Run Composer install
+        run: |
+          docker run --rm \
+            -v ${{ github.workspace }}:/var/www/app \
+            futevent-php \
+            composer install --no-interaction --no-progress --prefer-dist
+
+      - name: Check PHP extensions
+        run: |
+          docker run --rm futevent-php php -m | grep gd
