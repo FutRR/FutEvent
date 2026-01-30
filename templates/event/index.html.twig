@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Event List
+{% endblock %}
+
+{% block body %}
+    {% if keyword %}
+        Search results for "{{ keyword }}"
+    {% else %}
+        All Events
+    {% endif %}
+
+    {% for event in events %}
+        {% include 'components/_event_card.html.twig' with { event: event } %}
+    {% else %}
+        <p>No event found.</p>
+    {% endfor %}
+{% endblock %}

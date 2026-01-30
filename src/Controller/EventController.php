@@ -7,6 +7,7 @@ use App\Entity\EventRequest;
 use App\Entity\User;
 use App\Enum\EventRequestStatus;
 use App\Form\EventType;
+use App\Repository\EventRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -16,6 +17,23 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 final class EventController extends AbstractController
 {
+
+    #[Route('/events', name: 'event_list', methods: ['GET'])]
+    public function index(Request $request, EventRepository $eventRepository): Response
+    {
+        $keyword = $request->query->get('keyword');
+
+        if($keyword){
+            $events = $eventRepository->searchByKeyword($keyword);
+        } else {
+            $events = $eventRepository->findBy([], ['datetime_start' => 'DESC']);
+        }
+
+        return $this->render('event/index.html.twig', [
+            'keyword' => $keyword ?? null,
+            'events' => $events,
+        ]);
+    }
 
     /**
      * Create or edit an event

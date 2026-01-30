@@ -1,6 +1,13 @@
 <header>
     <nav>
         <a href="{{ path('default_home') }}"><img src="{{ asset('img/logos/logo-futevent-line.png') }}" alt="FutEvent Logo" id="logo"></a>
+
+        <form method="get" action="{{ path('event_list') }}" class="search-form">
+            <input type="text" name="keyword" placeholder="Rechercher un événement" value="{{ keyword ?? '' }}">
+            <button type="submit" style="border: none; background: none;"><i class="fa-solid fa-magnifying-glass"></i>
+            </button>
+        </form>
+
         <ul class="links">
             <li><a class="link" href="{{ path('default_home') }}">Home</a></li>
             <li><a class="link" href="{{ path('category_list') }}">Categories</a></li>
