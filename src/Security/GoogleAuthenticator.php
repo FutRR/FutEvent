@@ -69,12 +69,26 @@ class GoogleAuthenticator extends OAuth2Authenticator implements AuthenticationE
         );
     }
 
-    public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
-    {
-        $targetUrl = $this->router->generate('default_home');
+    public function onAuthenticationSuccess(
+        Request $request,
+        TokenInterface $token,
+        string $firewallName
+    ): ?Response {
+        $user = $token->getUser();
 
-        return new RedirectResponse($targetUrl);
+        if ($user instanceof User) {
+            $googleId = $request->getSession()->get('google_id');
+
+            if ($googleId && !$user->getGoogleId()) {
+                $user->setGoogleId($googleId);
+                $this->entityManager->flush();
+                $request->getSession()->remove('google_id');
+            }
+        }
+
+        return new RedirectResponse('/');
     }
+
 
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception): ?Response
     {
