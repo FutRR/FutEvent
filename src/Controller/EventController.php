@@ -48,7 +48,7 @@ final class EventController extends AbstractController
     #[Route('/event/new/{categoryId?}', name: 'event_new', methods: ['GET', 'POST'])]
     #[Route('/event/{id}/edit', name: 'event_edit', methods: ['GET', 'POST'])]
     #[isGranted('ROLE_USER')]
-    public function new(Request $request, EntityManagerInterface $entityManager, Event $event = null, ?int $categoryId = null): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, ?Event $event = null, ?int $categoryId = null): Response
     {
         $isNewEvent = !$event;
         $event = $event ?? new Event();
