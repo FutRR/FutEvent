@@ -31,7 +31,7 @@ This project is **Docker-based** and uses **GitHub Actions CI** to ensure build 
 
 - PHP 8.2 or higher
 - Composer
-- MySQL extension enabled
+- PHP development environnement (Laragon or X/W/L/MAMP)
 - Required PHP extensions (intl, pdo, gd, zip, etc.)
 
 ---
