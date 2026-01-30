@@ -43,28 +43,28 @@ class GoogleAuthenticator extends OAuth2Authenticator implements AuthenticationE
         $accessToken = $this->fetchAccessToken($client);
 
         $googleUser = $client->fetchUserFromToken($accessToken);
+
         $email = $googleUser->getEmail();
+
+        $request->getSession()->set('google_id', $googleUser->getId());
 
         return new SelfValidatingPassport(
             new UserBadge($email, function () use ($email) {
 
-                $existingUser = $this->entityManager->getRepository(User::class)->findOneBy(['email' => $email]);
+                $user = $this->entityManager->getRepository(User::class)->findOneBy(['email' => $email]);
 
-                if ($existingUser) {
-                    return $existingUser;
-                } else {
-                    $user = new User();
-                    $user->setEmail($email);
-                    $user->setUsername(explode("@", $email)[0]);
-                    $user->setRoles(['ROLE_USER']);
-                    $user->setIsGoogleUser(true);
-
-
-                    $this->entityManager->persist($user);
-                    $this->entityManager->flush();
-
+                if ($user) {
                     return $user;
                 }
+
+                $user = new User();
+                $user->setEmail($email);
+                $user->setRoles(['ROLE_USER']);
+
+                $this->entityManager->persist($user);
+                $this->entityManager->flush();
+
+                return $user;
             })
         );
     }

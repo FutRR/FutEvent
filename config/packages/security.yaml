@@ -28,6 +28,7 @@ security:
 
             custom_authenticators:
                 - App\Security\GoogleAuthenticator
+            success_handler: App\Security\GoogleAuthenticationSuccessHandler
 
             logout:
                 path: app_logout
