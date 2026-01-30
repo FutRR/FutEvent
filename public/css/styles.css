@@ -400,7 +400,7 @@ input[type="submit"]:active{
 }
 
 .login-with-google-btn:hover {
-    box-shadow: #313131 0px 10px 10px -10px;
+    box-shadow: #313131 0 10px 10px -10px;
     border-color: var(--primary);
 }
 
