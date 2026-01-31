@@ -1,9 +1,9 @@
 name: CI
 
 on:
-  push:
-    branches: [ "master" ]
   pull_request:
+    branches: [ "master" ]
+  push:
     branches: [ "master" ]
 
 jobs:
@@ -14,16 +14,26 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Build Docker image
-        run: docker build -t futevent-php -f docker/php/Dockerfile .
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
 
-      - name: Run Composer install
+      - name: Build Docker image (CI)
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: docker/php/Dockerfile
+          load: true
+          tags: futevent-php:ci
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Install Composer dependencies
         run: |
           docker run --rm \
             -v ${{ github.workspace }}:/var/www/app \
-            futevent-php \
+            futevent-php:ci \
             composer install --no-interaction --no-progress --prefer-dist
 
       - name: Check PHP extensions
         run: |
-          docker run --rm futevent-php php -m | grep gd
+          docker run --rm futevent-php:ci php -m | grep -E "gd|intl|pdo_mysql"
