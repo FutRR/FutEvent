@@ -1,6 +1,9 @@
 services:
     php:
         build: docker/php
+        environment:
+            APP_ENV: prod
+            APP_DEBUG: 0
         volumes:
             - .:/var/www/app:cached
 
