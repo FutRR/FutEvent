@@ -44,7 +44,7 @@ jobs:
                   docker run --rm \
                     -v ${{ github.workspace }}:/var/www/app \
                     -e APP_ENV=test \
-                    -e DATABASE_URL="mysql://root:@mysql:3306/futevent_test?serverVersion=8.0" \
+                    -e DATABASE_URL="mysql://root:@mysql:3306/futevent?serverVersion=8.0" \
                     --network ${{ job.services.mysql.network }} \
                     futevent-php \
                     php bin/console doctrine:schema:update --force
