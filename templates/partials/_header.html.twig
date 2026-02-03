@@ -26,13 +26,15 @@
         <!-- Menu de navigation -->
         <ul class="links" id="navLinks">
             <!-- Barre de recherche mobile (dans le menu) -->
-            <form method="get" action="{{ path('event_list') }}" class="search-form-mobile">
-                <label for="search-mobile" class="sr-only">Search an event</label>
-                <input type="text" id="search-mobile" name="keyword" placeholder="Search..." value="{{ keyword ?? '' }}">
-                <button type="submit" aria-label="Search">
-                    <i class="fa-solid fa-magnifying-glass"></i>
-                </button>
-            </form>
+            <li>
+                <form method="get" action="{{ path('event_list') }}" class="search-form-mobile">
+                    <label for="search-mobile" class="sr-only">Search an event</label>
+                    <input type="text" id="search-mobile" name="keyword" placeholder="Search..." value="{{ keyword ?? '' }}">
+                    <button type="submit" aria-label="Search">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                    </button>
+                </form>
+            </li>
 
             <li><a class="link" href="{{ path('default_home') }}">Home</a></li>
             <li><a class="link" href="{{ path('category_list') }}">Categories</a></li>
