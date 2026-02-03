@@ -1,4 +1,4 @@
-name: CI (force trigger)
+name: CI
 
 on:
     push:
