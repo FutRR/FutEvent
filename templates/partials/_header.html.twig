@@ -1,17 +1,45 @@
 <header>
-    <nav>
-        <a href="{{ path('default_home') }}"><img src="{{ asset('img/logos/logo-futevent-line.png') }}" alt="FutEvent Logo" id="logo"></a>
+    <!-- Overlay sombre pour fermer le menu -->
+    <div class="menu-overlay" id="menuOverlay"></div>
 
+    <nav>
+        <a href="{{ path('default_home') }}">
+            <img src="{{ asset('img/logos/logo-futevent-line.png') }}" alt="FutEvent Logo" id="logo">
+        </a>
+
+        <!-- Barre de recherche desktop -->
         <form method="get" action="{{ path('event_list') }}" class="search-form">
-            <input type="text" name="keyword" placeholder="Rechercher un événement" value="{{ keyword ?? '' }}">
-            <button type="submit" style="border: none; background: none;"><i class="fa-solid fa-magnifying-glass"></i>
+            <label for="search-desktop" class="sr-only">Search an event</label>
+            <input type="text" id="search-desktop" name="keyword" placeholder="Search an event" value="{{ keyword ?? '' }}">
+            <button type="submit" class="search-btn" aria-label="Search">
+                <i class="fa-solid fa-magnifying-glass"></i>
             </button>
         </form>
 
-        <ul class="links">
+        <!-- Bouton burger -->
+        <button class="burger-menu" id="burgerMenu" aria-label="Menu">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+
+        <!-- Menu de navigation -->
+        <ul class="links" id="navLinks">
+            <!-- Barre de recherche mobile (dans le menu) -->
+            <form method="get" action="{{ path('event_list') }}" class="search-form-mobile">
+                <label for="search-mobile" class="sr-only">Search an event</label>
+                <input type="text" id="search-mobile" name="keyword" placeholder="Search..." value="{{ keyword ?? '' }}">
+                <button type="submit" aria-label="Search">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                </button>
+            </form>
+
             <li><a class="link" href="{{ path('default_home') }}">Home</a></li>
             <li><a class="link" href="{{ path('category_list') }}">Categories</a></li>
+            <li><a class="link" href="{{ path('event_list') }}">Events</a></li>
             {% if app.user %}
+                {% if is_granted('ROLE_ADMIN') %}
+                {% endif %}
                 <li><a class="link" href="{{ path('user_profile', {username: app.user.username}) }}">Profile</a></li>
                 <li><a class="link" href="{{ path('app_logout') }}">Logout</a></li>
             {% else %}
@@ -20,4 +48,43 @@
             {% endif %}
         </ul>
     </nav>
+
+    <script>
+        // Script pour le menu burger
+        document.addEventListener('DOMContentLoaded', function() {
+            const burgerMenu = document.getElementById('burgerMenu');
+            const navLinks = document.getElementById('navLinks');
+            const menuOverlay = document.getElementById('menuOverlay');
+            const links = document.querySelectorAll('.links .link');
+
+            // Toggle menu
+            function toggleMenu() {
+                burgerMenu.classList.toggle('active');
+                navLinks.classList.toggle('active');
+                menuOverlay.classList.toggle('active');
+
+                // Empêcher le scroll du body quand le menu est ouvert
+                if (navLinks.classList.contains('active')) {
+                    document.body.style.overflow = 'hidden';
+                } else {
+                    document.body.style.overflow = '';
+                }
+            }
+
+            // Ouvrir/fermer avec le bouton burger
+            burgerMenu.addEventListener('click', toggleMenu);
+
+            // Fermer avec l'overlay
+            menuOverlay.addEventListener('click', toggleMenu);
+
+            // Fermer quand on clique sur un lien
+            links.forEach(link => {
+                link.addEventListener('click', function() {
+                    if (navLinks.classList.contains('active')) {
+                        toggleMenu();
+                    }
+                });
+            });
+        });
+    </script>
 </header>

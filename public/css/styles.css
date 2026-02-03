@@ -164,37 +164,6 @@ main{
     gap: 2em;
 }
 
-.search-form{
-    position: relative;
-    display: flex;
-    flex-direction: row;
-    width: 100%;
-}
-
-.search-form label, input{
-    width: 100% !important;
-}
-
-.search-form input{
-    padding-right: 3em;
-}
-
-.search-btn{
-    position: absolute;
-    top: 1.2em;
-    right: 1em;
-    border: none;
-    background: none;
-    padding: 0;
-    cursor: pointer;
-    font-size: 20px;
-    transition: color 250ms ease-out;
-}
-
-.search-btn:hover{
-    color: var(--primary);
-}
-
 .events-list{
     display: flex;
     flex-direction: column;
@@ -209,6 +178,17 @@ main{
     background-color: var(--dark);
     border-radius: 30px;
     color: var(--light);
+}
+
+/* Liste des événements */
+.events-list {
+    display: flex;
+    flex-direction: column;
+    gap: 2em;
+}
+
+.events-list > h2 {
+    margin: 0 0 1em 0; /* ← Marge en bas uniquement */
 }
 
 .event-list-img{
@@ -319,6 +299,19 @@ main{
     background-color: #ff0000;
 }
 
+.categories-list {
+    display: flex;
+    flex-direction: column;
+    gap: 2em;
+    align-items: stretch;
+}
+
+.categories-list > .btn {
+    width: auto;
+    min-width: fit-content;
+    align-self: flex-start;
+}
+
 
 /* FORMS */
 
@@ -410,4 +403,314 @@ input[type="submit"]:active{
         0 -1px 0 rgba(0, 0, 0, .04),
         0 2px 4px rgba(0, 0, 0, .25),
         0 0 0 3px #c8dafc;
+}
+
+@media screen and (max-width: 768px){
+
+    main {
+        padding: 5vh 5vw; /* Mobile */
+    }
+
+    /* ============================================
+           PAGE D'ACCUEIL - HOME
+           ============================================ */
+
+    .home {
+        flex-direction: column;
+        gap: 3em;
+    }
+
+    .home-events {
+        width: 100%;
+    }
+
+    .your-event {
+        width: 100%;
+    }
+
+    /* Event Card */
+    .event {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .event-img {
+        width: 100%;
+        align-self: center;
+    }
+
+    .event-img img {
+        width: 100%;
+    }
+
+    .event-text {
+        width: 100%;
+    }
+
+    .event-title {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5em;
+    }
+
+    .event-title h2 {
+        font-size: 1.5em;
+    }
+
+    .event-title h3 {
+        font-size: 1em;
+        margin: 0;
+    }
+
+    .event-title h4 {
+        font-size: 0.9em;
+    }
+
+    .event-bottom {
+        width: 100%;
+        gap: 1em;
+    }
+
+    .btns {
+        width: 100%;
+        align-items: stretch;
+    }
+
+    .btn {
+        width: auto;
+        min-width: fit-content;
+        white-space: nowrap;
+        font-size: 16px;
+        padding: 0.7em 1.5em;
+    }
+
+    /* Your next event - section droite */
+    .home-created {
+        padding: 1em;
+    }
+
+    .home-created-top {
+        flex-direction: column;
+        align-items: center;
+        gap: 1em;
+    }
+
+    .home-created-img {
+        width: 100% !important;
+    }
+
+    .home-created-img img {
+        width: 100%;
+    }
+
+    .home-created-title {
+        text-align: center;
+        width: 100%;
+    }
+
+    .home-created-title h2 {
+        font-size: 1.5em;
+    }
+
+    .home-created-title h3 {
+        font-size: 1em;
+        margin: 0.5em 0;
+    }
+
+    .home-created-bottom {
+        margin-top: 1em;
+    }
+
+    /* ============================================
+       PAGE DÉTAILS ÉVÉNEMENT
+       ============================================ */
+
+    .event-detail-wrapper {
+        gap: 2em;
+    }
+
+    .event-detail-top {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1em;
+    }
+
+    .event-detail-top h2 {
+        font-size: 1.8em;
+    }
+
+    .event-detail-top h3 {
+        font-size: 1em;
+        margin: 0.5em 0;
+    }
+
+    .event-detail-main {
+        flex-direction: column-reverse;
+        gap: 2em;
+    }
+
+    .event-detail-description {
+        width: 100%;
+        font-size: 18px;
+    }
+
+    .event-detail-main .event-img {
+        width: 100%;
+    }
+
+    .event-detail-main .event-img img {
+        width: 100%;
+    }
+
+    .event-detail-bottom {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 2em;
+    }
+
+    .event-detail-users,
+    .users {
+        width: 100%;
+        align-items: flex-start;
+    }
+
+    .event-detail-bottom .btns {
+        width: 100%;
+    }
+
+    .event-detail-btn {
+        width: auto;
+        min-width: fit-content;
+        white-space: nowrap;
+        padding: 0.7em 1.5em;
+    }
+
+    /* Bouton delete qui est dans un form */
+    .event-detail-bottom form {
+        width: 100% !important;
+    }
+
+    .event-detail-bottom form .btn {
+        width: auto;
+        min-width: fit-content;
+    }
+
+    /* Requests section */
+    .request {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5em;
+        padding: 1em;
+        background-color: rgba(39, 45, 45, 0.05);
+        border-radius: 15px;
+        margin: 0.5em 0;
+    }
+
+    .request h4 {
+        margin: 0;
+    }
+
+    .request .btn {
+        width: auto;
+        min-width: fit-content;
+        font-size: 14px;
+        padding: 0.5em 1em;
+    }
+
+
+    /* ============================================
+       PAGE LISTE CATÉGORIES
+       ============================================ */
+
+    .categories-list {
+        gap: 1.5em;
+    }
+
+    .categories-list > .btn {
+        width: auto;
+        min-width: fit-content;
+        align-self: flex-start;
+        padding: 0.7em 1.5em;
+    }
+
+    .category {
+        padding: 1.5em;
+    }
+
+    .category h2 {
+        font-size: 1.5em;
+    }
+
+    /* ============================================
+       PAGE LISTE ÉVÉNEMENTS
+       ============================================ */
+
+    .events-list {
+        gap: 2em; /* ← Gap entre chaque événement en mobile */
+    }
+
+    .search-wrapper {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1em;
+    }
+
+    .search-wrapper h2 {
+        margin: 0;
+    }
+
+}
+
+@media screen and (max-width: 480px){
+
+    main {
+        padding: 3vh 4vw; /* Petit mobile */
+    }
+
+    /* Ajustements pour très petits écrans */
+    .event {
+        padding: 0.8em;
+    }
+
+    .event-title h2 {
+        font-size: 1.3em;
+    }
+
+    .btn {
+        font-size: 14px;
+        padding: 0.6em 1.2em;
+    }
+
+    /* Event detail pour petits écrans */
+    .event-detail-top h2 {
+        font-size: 1.5em;
+    }
+
+    .event-detail-description {
+        font-size: 16px;
+    }
+
+    .event-detail-btn {
+        font-size: 14px;
+        padding: 0.6em 1.2em;
+    }
+
+    /* Categories pour petits écrans */
+    .category {
+        padding: 1.2em;
+    }
+
+    .category h2 {
+        font-size: 1.3em;
+    }
+
+    .categories-list > .btn {
+        font-size: 14px;
+        padding: 0.6em 1.2em;
+    }
+
+    /* Liste événements pour petits écrans */
+    .events-list {
+        gap: 1.5em;
+    }
 }

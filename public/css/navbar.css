@@ -5,15 +5,18 @@ nav{
     justify-content: space-between;
     align-items: center;
     padding: 0 2.5%;
+    gap: 2em; /* Ajout du gap entre le logo et les autres éléments */
 }
 
 #logo{
     width: 10vw;
+    flex-shrink: 0; /* Empêche le logo de rétrécir */
 }
 
 .links{
     display: flex;
     gap: 1em;
+    flex-shrink: 0; /* Empêche les liens de rétrécir */
 }
 
 .link{
@@ -38,4 +41,255 @@ nav{
 .link:hover::after{
     transform: scaleX(1);
     transform-origin: bottom left;
+}
+
+/* Classe pour cacher visuellement mais garder accessible aux lecteurs d'écran */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+}
+
+.search-form{
+    position: relative;
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+}
+
+.search-form label{
+    width: 100% !important;
+}
+
+.search-form input{
+    width: 100% !important;
+    padding: 0.75em 3.5em 0.75em 1.5em; /* Padding à droite pour le bouton */
+    border: 2px solid var(--dark);
+    border-radius: 50px;
+    background-color: var(--light);
+    font-size: 16px;
+}
+
+.search-form input:focus{
+    outline: none;
+    border: 2px solid var(--primary);
+}
+
+.search-btn{
+    position: absolute;
+    top: 50%; /* Centré verticalement */
+    transform: translateY(-50%); /* Ajustement parfait */
+    right: 1em;
+    border: none;
+    background: none;
+    padding: 0.5em; /* Ajout de padding pour une meilleure zone cliquable */
+    cursor: pointer;
+    font-size: 18px;
+    color: var(--dark);
+    transition: color 250ms ease-out;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.search-btn:hover{
+    color: var(--primary);
+}
+
+/* ============================================
+   NAVBAR MOBILE - RESPONSIVE
+   ============================================ */
+
+/* Cacher la barre de recherche mobile par défaut (desktop) */
+.search-form-mobile {
+    display: none !important;
+}
+
+/* Menu burger button - caché en desktop */
+.burger-menu {
+    display: none;
+    flex-direction: column;
+    justify-content: space-around;
+    width: 30px;
+    height: 25px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    z-index: 1001;
+}
+
+.burger-menu span {
+    width: 100%;
+    height: 3px;
+    background-color: var(--dark);
+    border-radius: 10px;
+    transition: all 0.3s ease;
+}
+
+/* Animation du burger en X */
+.burger-menu.active span:nth-child(1) {
+    transform: rotate(45deg) translate(8px, 8px);
+}
+
+.burger-menu.active span:nth-child(2) {
+    opacity: 0;
+}
+
+.burger-menu.active span:nth-child(3) {
+    transform: rotate(-45deg) translate(7px, -7px);
+}
+
+/* ============================================
+   MEDIA QUERIES MOBILE
+   ============================================ */
+
+@media screen and (max-width: 768px) {
+
+    /* NAVIGATION */
+    nav {
+        padding: 1em 5%;
+        position: relative;
+    }
+
+    #logo {
+        width: 30vw;
+        max-width: 120px;
+    }
+
+    /* Afficher le bouton burger */
+    .burger-menu {
+        display: flex;
+    }
+
+    /* Cacher la barre de recherche en mobile (ou la placer dans le menu) */
+    nav > .search-form {
+        display: none;
+    }
+
+    /* Menu mobile */
+    .links {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        height: 100vh;
+        width: 75%;
+        max-width: 300px;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;
+        gap: 0;
+        padding: 80px 2em 2em 2em;
+        background-color: var(--dark);
+        transition: right 0.3s ease;
+        z-index: 1000;
+        box-shadow: -5px 0 15px rgba(0, 0, 0, 0.3);
+    }
+
+    .links.active {
+        right: 0;
+    }
+
+    .links li {
+        width: 100%;
+        padding: 1em 0;
+        border-bottom: 1px solid rgba(253, 240, 213, 0.1);
+    }
+
+    .links li:last-child {
+        border-bottom: none;
+    }
+
+    .links .link {
+        color: var(--light);
+        font-size: 22px;
+        display: inline-block; /* Changé de block à inline-block */
+        width: auto; /* Changé de 100% à auto */
+    }
+
+    .links .link::after {
+        background-color: var(--primary);
+    }
+
+    /* Overlay sombre quand le menu est ouvert */
+    .menu-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100vh;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 999;
+    }
+
+    .menu-overlay.active {
+        display: block;
+    }
+
+    /* Barre de recherche dans le menu mobile (optionnel) */
+    .links .search-form-mobile {
+        display: flex !important; /* Force l'affichage en mobile */
+        position: relative;
+        width: 100%;
+        margin-bottom: 1em;
+        padding-bottom: 1em;
+        border-bottom: 1px solid rgba(253, 240, 213, 0.1);
+    }
+
+    .links .search-form-mobile input {
+        width: 100%;
+        background-color: rgba(253, 240, 213, 0.1);
+        border: 1px solid var(--light);
+        color: var(--light);
+        padding: 0.8em 3em 0.8em 1em;
+        border-radius: 50px;
+    }
+
+    .links .search-form-mobile input::placeholder {
+        color: rgba(253, 240, 213, 0.6);
+    }
+
+    .links .search-form-mobile button {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        right: 1em;
+        color: var(--light);
+        font-size: 16px;
+        border: none;
+        background: none;
+        padding: 0;
+        cursor: pointer;
+        transition: color 250ms ease-out;
+    }
+
+    .links .search-form-mobile button:hover {
+        color: var(--primary);
+    }
+}
+
+@media screen and (max-width: 480px) {
+    nav {
+        padding: 0.8em 4%;
+    }
+
+    #logo {
+        width: 35vw;
+    }
+
+    .burger-menu {
+        width: 28px;
+        height: 22px;
+    }
+
+    .links {
+        width: 85%;
+    }
 }
