@@ -444,6 +444,14 @@ abstract class AbstractController implements ServiceSubscriberInterface
         return $response;
     }
 
+    protected function redirectToReferer(Request $request): Response
+    {
+        $referer = $request->headers->get('referer');
+        if ($referer) {
+            return $this->redirect($referer);
+        }
+    }
+
     private function doRenderView(string $view, ?string $block, array $parameters, string $method): string
     {
         if (!$this->container->has('twig')) {
