@@ -8,8 +8,10 @@ use App\Entity\User;
 use App\Enum\EventRequestStatus;
 use App\Form\EventType;
 use App\Repository\EventRepository;
+use App\Security\Voter\EventVoter;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Finder\Exception\AccessDeniedException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -47,14 +49,24 @@ final class EventController extends AbstractController
      */
     #[Route('/event/new/{categoryId?}', name: 'event_new', methods: ['GET', 'POST'])]
     #[Route('/event/{id}/edit', name: 'event_edit', methods: ['GET', 'POST'])]
-    #[isGranted('ROLE_USER')]
     public function new(Request $request, EntityManagerInterface $entityManager, ?Event $event = null, ?int $categoryId = null): Response
     {
         $isNewEvent = !$event;
         $event = $event ?? new Event();
 
-        if (!$isNewEvent && $event->getCreator() !== $this->getUser()) {
-            throw $this->createAccessDeniedException('You can only edit your own events');
+        if (!$isNewEvent) {
+            try {
+                $this->denyAccessUnlessGranted(EventVoter::EDIT, $event);
+            } catch(AccessDeniedException $e) {
+                $this->addFlash('error', 'You are not allowed to edit this event');
+
+                $this->redirectToReferer($request);
+                return $this->redirectToRoute('event_show', [
+                    'id' => $event->getId(),
+                    'title' => $event->getTitle(),
+                ]);
+            }
+
         }
 
         $oldImage = $event->getImage();
@@ -125,14 +137,10 @@ final class EventController extends AbstractController
      * @return Response
      */
     #[Route('/event/{id}/delete', name: 'event_delete', methods: ['POST', 'DELETE'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted('delete', 'event')]
     public function delete(Request $request, Event $event, EntityManagerInterface $entityManager): Response
     {
         $category = $event->getCategory();
-
-        if ($event->getCreator() !== $this->getUser()) {
-            $this->addFlash('error', 'You can only delete your own events');
-        }
 
         if (!$this->isCsrfTokenValid('delete'.$event->getId(), $request->request->get('_token'))) {
             $this->addFlash('error', 'Invalid CSRF token');
