@@ -1,4 +1,4 @@
-[![CI](https://github.com/FutRR/FutEvent/actions/workflows/docker-image.yml/badge.svg)](https://github.com/FutRR/FutEvent/actions/workflows/docker-image.yml) [![CD](https://github.com/FutRR/FutEvent/actions/workflows/docker-publish.yml/badge.svg)](https://github.com/FutRR/FutEvent/actions/workflows/docker-publish.yml)
+[![CI](https://github.com/FutRR/FutEvent/actions/workflows/cd.yml/badge.svg)](https://github.com/FutRR/FutEvent/actions/workflows/ci.yml) [![CD](https://github.com/FutRR/FutEvent/actions/workflows/cd.yml/badge.svg)](https://github.com/FutRR/FutEvent/actions/workflows/cd.yml)
 
 # Event Management Application
 
@@ -128,5 +128,3 @@ The CI runs on every push and pull request to the master branch.
 MIT
 
 ---
-# trigger ci
-# trigger ci
