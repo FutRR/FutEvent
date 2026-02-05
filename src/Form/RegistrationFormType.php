@@ -31,9 +31,7 @@ class RegistrationFormType extends AbstractType
                 'row_attr' => ['class' => 'form-checkbox'],
                 'mapped' => false,
                 'constraints' => [
-                    new IsTrue([
-                        'message' => 'You should agree to our terms.',
-                    ]),
+                    new IsTrue(message: 'You should agree to our terms.'),
                 ],
             ])
             ->add('plainPassword', RepeatedType::class, [
@@ -43,29 +41,23 @@ class RegistrationFormType extends AbstractType
                 'invalid_message' => 'The password fields must match.',
                 'first_options' => [
                     'label' => 'Password',
+                    'row_attr' => ['class' => 'form-group'],
                     'attr' => ['autocomplete' => 'new-password']
                 ],
                 'second_options' => [
                     'label' => 'Confirm Password',
+                    'row_attr' => ['class' => 'form-group'],
                     'attr' => ['autocomplete' => 'new-password']
                 ],
                 'required' => true,
-                'row_attr' => ['class' => 'form-group'],
                 'mapped' => false,
                 'constraints' => [
-                    new NotBlank([
-                        'message' => 'Please enter a password',
-                    ]),
-                    new Length([
-                        'min' => 6,
-                        'minMessage' => 'Your password should be at least {{ limit }} characters',
-                        // max length allowed by Symfony for security reasons
-                        'max' => 4096,
-                    ]),
-                    new Regex([
-                        'pattern' => '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#^()_\-+=\[\]{};:\'",.<>\/\\|`~]).{8,}$/',
-                        'message' => 'Your password must contain at least one uppercase letter, one lowercase letter, one number, and one special character.',
-                    ]),
+                    new NotBlank(message: 'Please enter a password'),
+                    new Length(min: 6, max: 4096, minMessage: 'Your password should be at least {{ limit }} characters'),
+                    new Regex(
+                        pattern: '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#^()_\-+=\[\]{};:\'",.<>\/\\|`~]).{8,}$/',
+                        message: 'Your password must contain at least one uppercase letter, one lowercase letter, one number, and one special character.'
+                    ),
                 ],
             ])
         ;
