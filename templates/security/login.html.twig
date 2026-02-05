@@ -43,11 +43,13 @@
             #}
 
             <input type="submit" class="submit" value="Connect">
+
+            <a class="login-with-google-btn submit" href="{{ path('connect_google')}}">Continue with Google</a>
+
+            <p>New to FutEvent? <a style="text-decoration: underline" href="{{ path('app_register') }}">Create an account</a></p>
         </form>
 
-        <a class="login-with-google-btn submit" href="{{ path('connect_google')}}">Se connecter avec Google</a>
 
-        <a class="link" href="{{ path('app_register') }}">Create an account</a>
     </div>
 
 {% endblock %}

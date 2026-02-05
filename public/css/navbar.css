@@ -236,11 +236,11 @@ nav{
     /* Barre de recherche dans le menu mobile (optionnel) */
     .links .search-form-mobile {
         display: flex !important; /* Force l'affichage en mobile */
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
         position: relative;
         width: 100%;
-        margin-bottom: 1em;
-        padding-bottom: 1em;
-        border-bottom: 1px solid rgba(253, 240, 213, 0.1);
     }
 
     .links .search-form-mobile input {
@@ -252,14 +252,12 @@ nav{
         border-radius: 50px;
     }
 
-    .links .search-form-mobile input::placeholder {
-        color: rgba(253, 240, 213, 0.6);
-    }
+    /*.links .search-form-mobile input::placeholder {*/
+    /*    color: rgba(253, 240, 213, 0.6);*/
+    /*}*/
 
     .links .search-form-mobile button {
         position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
         right: 1em;
         color: var(--light);
         font-size: 16px;
