@@ -7,15 +7,6 @@
             <img src="{{ asset('img/logos/logo-futevent-line.png') }}" alt="FutEvent Logo" id="logo">
         </a>
 
-        <!-- Barre de recherche desktop -->
-        <form method="get" action="{{ path('event_list') }}" class="search-form">
-            <label for="search-desktop" class="sr-only">Search an event</label>
-            <input type="text" id="search-desktop" name="keyword" placeholder="Search an event" value="{{ keyword ?? '' }}">
-            <button type="submit" class="search-btn" aria-label="Search">
-                <i class="fa-solid fa-magnifying-glass"></i>
-            </button>
-        </form>
-
         <!-- Bouton burger -->
         <button class="burger-menu" id="burgerMenu" aria-label="Menu">
             <span></span>
@@ -25,12 +16,17 @@
 
         <!-- Menu de navigation -->
         <ul class="links" id="navLinks">
-            <!-- Barre de recherche mobile (dans le menu) -->
+            <li class="mobile">
+                <a href="{{ path('default_home') }}">
+                    <img src="{{ asset('img/logos/logo-futevent.png') }}" alt="FutEvent Logo" id="mobile-logo">
+                </a>
+            </li>
             <li>
-                <form method="get" action="{{ path('event_list') }}" class="search-form-mobile">
-                    <label for="search-mobile" class="sr-only">Search an event</label>
-                    <input type="text" id="search-mobile" name="keyword" placeholder="Search..." value="{{ keyword ?? '' }}">
-                    <button type="submit" aria-label="Search">
+                <!-- Barre de recherche desktop -->
+                <form method="get" action="{{ path('event_list') }}" class="search-form">
+                    <label for="search" class="sr-only">Search an event</label>
+                    <input type="text" id="search" name="keyword" placeholder="Search an event" value="{{ keyword ?? '' }}">
+                    <button type="submit" class="search-btn" aria-label="Search">
                         <i class="fa-solid fa-magnifying-glass"></i>
                     </button>
                 </form>
@@ -42,7 +38,7 @@
             {% if app.user %}
                 {% if is_granted('ROLE_ADMIN') %}
                 {% endif %}
-                <li><a class="link" href="{{ path('user_profile', {username: app.user.username}) }}">Profile</a></li>
+                <li><a class="link" href="{{ path('user_profile', {username: app.user.userIdentifier}) }}">Profile</a></li>
                 <li><a class="link" href="{{ path('app_logout') }}">Logout</a></li>
             {% else %}
                 <li><a class="link" href="{{ path('app_login') }}">Login</a></li>
